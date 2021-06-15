@@ -1,0 +1,8 @@
+--[[
+Cracked by Sypse#6005
+Subscribe to Khysarth "KhysarthYT#0479"
+update: fixed the problems
+]]
+shared.whitelistkey = 'key_iceeisathickskid';
+shared.removewatermark = false;
+loadstring(game:HttpGet'https://paste.ee/r/9tiUX')();

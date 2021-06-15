@@ -1,0 +1,3 @@
+_G.Key = "b298f-90e2bj-qjbkf1" --Key Goes Here
+loadstring(game:HttpGet("https://getkeybubblehub.000webhostapp.com/BubbleHubV2"))()
+--[[

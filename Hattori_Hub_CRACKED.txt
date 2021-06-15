@@ -1,0 +1,16 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RaptorsSexy/Cracks/main/NoirLikesDick.txt"))();
+
+--SHINOBI LIFE 2
+--WORLD OF MAGIC
+--SWORDBURST 2 
+--PARKOUR
+--VESTERIA
+--WILD WEST
+--WORLD ZERO
+--APOCALYPSE RISING 2
+--CRITICAL STRIKE
+--PHANTOM FORCES
+--RO GHOUL
+--BAD BUSINESS
+--BLOXBURG
+--UNIVERSAL AIMBOT & ESP

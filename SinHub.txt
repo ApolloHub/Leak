@@ -1,0 +1,3051 @@
+
+	
+
+    if game.PlaceId == 3527629287 then
+
+local UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/twink"))()
+
+local MainUI = UILibrary.Load(" Big Paintball | SinHub")
+local SecondPage = MainUI.AddPage("Gun Mods")
+local CombatPage = MainUI.AddPage("Combat")
+local ThirdPage = MainUI.AddPage("ESP")
+local MiscPage = MainUI.AddPage("Misc")
+local CreditsPage = MainUI.AddPage("Credits")
+
+--functions
+
+--Walkspeed--
+local function UserWalkSpeed(person, speed)
+    if person and person.Character then
+        if person.Character:FindFirstChildWhichIsA("Humanoid") then
+            person.Character:FindFirstChildWhichIsA("Humanoid").WalkSpeed = speed
+        end
+    end
+end
+
+
+--Labels
+
+local CreditsLabel = CreditsPage.AddLabel("Made by KarumuBlox#2391")
+local CreditsLabel = CreditsPage.AddLabel("UI made by twink marie")
+local CombatLabel = CreditsPage.AddLabel("Thanks to WetWipes#1017 for the silent Aim")
+
+
+--------Gun Mods--------
+
+--Auto Gun--
+local ModsToggle = SecondPage.AddToggle("Automatic Gun", false, function(Value)
+if toggle == false
+then toggle = true
+    
+for i,v in pairs(game:GetService("ReplicatedStorage").Framework.Modules["1 | Directory"].Guns:GetChildren()) do
+pcall(function()
+require(v)[tostring(i)].automatic = false
+end)
+end
+
+
+    else
+        toggle = false
+        
+        for i,v in pairs(game:GetService("ReplicatedStorage").Framework.Modules["1 | Directory"].Guns:GetChildren()) do
+pcall(function()
+require(v)[tostring(i)].automatic = true
+end)
+end
+        end
+end)
+
+--Fire Rate--
+local ModsToggle = SecondPage.AddToggle("Fire Rate", false, function(Value)
+if toggle == false
+then toggle = true
+    
+for i,v in pairs(game:GetService("ReplicatedStorage").Framework.Modules["1 | Directory"].Guns:GetChildren()) do
+pcall(function()
+require(v)[tostring(i)].firerate = 50
+end)
+end
+    else
+        toggle = false
+        
+for i,v in pairs(game:GetService("ReplicatedStorage").Framework.Modules["1 | Directory"].Guns:GetChildren()) do
+pcall(function()
+require(v)[tostring(i)].firerate = -math.huge
+end)
+end
+        end
+end)
+
+--Range (No Drop)--
+local ModsToggle = SecondPage.AddToggle("Range (No Drop)", false, function(Value)
+if toggle == false
+then toggle = true
+    
+for i,v in pairs(game:GetService("ReplicatedStorage").Framework.Modules["1 | Directory"].Guns:GetChildren()) do
+pcall(function()
+require(v)[tostring(i)].velocity = 150
+end)
+end
+    else
+        toggle = false
+        
+for i,v in pairs(game:GetService("ReplicatedStorage").Framework.Modules["1 | Directory"].Guns:GetChildren()) do
+pcall(function()
+require(v)[tostring(i)].velocity = 9999999
+end)
+end
+        end
+end)
+
+--Super Gun--
+local ModsToggle = SecondPage.AddToggle("Super Gun", false, function(Value)
+if toggle == false
+then toggle = true
+    
+for i,v in pairs(game:GetService("ReplicatedStorage").Framework.Modules["1 | Directory"].Guns:GetChildren()) do
+pcall(function()
+require(v)[tostring(i)].firerate = 50
+require(v)[tostring(i)].velocity = 150
+require(v)[tostring(i)].additionalSpeed = -15
+require(v)[tostring(i)].automatic = false
+end)
+end
+    else
+        toggle = false
+        
+for i,v in pairs(game:GetService("ReplicatedStorage").Framework.Modules["1 | Directory"].Guns:GetChildren()) do
+pcall(function()
+require(v)[tostring(i)].firerate = math.huge
+require(v)[tostring(i)].velocity = 9999999
+require(v)[tostring(i)].additionalSpeed = 15
+require(v)[tostring(i)].automatic = true
+end)
+end
+
+        end
+end)
+
+--------Combat--------
+
+
+
+local CombatButton = CombatPage.AddButton("One Hit Gadgets (Drone and turrets)", function()
+    
+for i,v in pairs(game:GetService("ReplicatedStorage").Framework.Modules["1 | Directory"].Guns:GetChildren()) do
+        pcall(function()
+            require(v)[tostring(i)].gadgetDamage = 100
+        end)
+    end
+    warn("Sucessfull!")
+    
+end)
+
+local CombatButton = CombatPage.AddButton("Kill All (K to toggle)", function()
+    
+	_G.Debug = true
+
+	local player = game.Players.LocalPlayer
+	local mouse = player:GetMouse()
+	Players = game:GetService("Players")
+	KillAll = false
+
+
+
+	mouse.KeyDown:connect(function(key)
+		if key == "k" then
+			if KillAll then
+				KillAll = false
+				_G.ENABLED = false
+				ENABLED = false
+				Respawn = false
+				TARGET = false
+
+
+
+			else
+				KillAll = true
+				_G.ENABLED = true
+				ENABLED = true
+				Respawn = true
+				TARGET = true
+
+
+			end
+		end
+	end)
+
+	PLAYER  = game.Players.LocalPlayer
+	MOUSE   = PLAYER:GetMouse()
+	CC      = game.Workspace.CurrentCamera
+
+	ENABLED      = true
+
+	_G.FREE_FOR_ALL = false
+
+local TARGET = false
+
+	_G.AIM_AT = 'Head'
+
+	wait(1)
+
+	function GetNearestPlayerToMouse()
+		local PLAYERS      = {}
+		local PLAYER_HOLD  = {}
+		local DISTANCES    = {}
+		for i, v in pairs(game.Players:GetPlayers()) do
+			if v ~= PLAYER then
+				table.insert(PLAYERS, v)
+			end
+		end
+		for i, v in pairs(PLAYERS) do
+			if _G.FREE_FOR_ALL == false then
+				if v and (v.Character) ~= nil and v.TeamColor ~= PLAYER.TeamColor then
+					local AIM = v.Character:FindFirstChild(_G.AIM_AT)
+					if AIM ~= nil then
+						local DISTANCE                 = (AIM.Position - game.Workspace.CurrentCamera.CoordinateFrame.p).magnitude
+						local RAY                      = Ray.new(game.Workspace.CurrentCamera.CoordinateFrame.p, (MOUSE.Hit.p - CC.CoordinateFrame.p).unit * DISTANCE)
+						local HIT,POS                  = game.Workspace:FindPartOnRay(RAY, game.Workspace)
+						local DIFF                     = math.floor((POS - AIM.Position).magnitude)
+						PLAYER_HOLD[v.Name .. i]       = {}
+						PLAYER_HOLD[v.Name .. i].dist  = DISTANCE
+						PLAYER_HOLD[v.Name .. i].plr   = v
+						PLAYER_HOLD[v.Name .. i].diff  = DIFF
+						table.insert(DISTANCES, DIFF)
+					end
+				end
+			elseif _G.FREE_FOR_ALL == true then
+				local AIM = v.Character:FindFirstChild(_G.AIM_AT)
+				if AIM ~= nil then
+					local DISTANCE                 = (AIM.Position - game.Workspace.CurrentCamera.CoordinateFrame.p).magnitude
+					local RAY                      = Ray.new(game.Workspace.CurrentCamera.CoordinateFrame.p, (MOUSE.Hit.p - CC.CoordinateFrame.p).unit * DISTANCE)
+					local HIT,POS                  = game.Workspace:FindPartOnRay(RAY, game.Workspace)
+					local DIFF                     = math.floor((POS - AIM.Position).magnitude)
+					PLAYER_HOLD[v.Name .. i]       = {}
+					PLAYER_HOLD[v.Name .. i].dist  = DISTANCE
+					PLAYER_HOLD[v.Name .. i].plr   = v
+					PLAYER_HOLD[v.Name .. i].diff  = DIFF
+					table.insert(DISTANCES, DIFF)
+				end
+			end
+		end
+
+		if unpack(DISTANCES) == nil then
+			return false
+		end
+
+		local L_DISTANCE = math.floor(math.min(unpack(DISTANCES)))
+		if L_DISTANCE > 12 then
+			return false
+		end
+
+		for i, v in pairs(PLAYER_HOLD) do
+			if v.diff == L_DISTANCE then
+				return v.plr
+			end
+		end
+		return false
+	end
+
+
+
+
+	function FIND()
+		CLEAR()
+		TRACK = true
+		spawn(function()
+			while wait() do
+				if TRACK then
+					CLEAR()
+					for i,v in pairs(game.Players:GetChildren()) do
+						if v.Character and v.Character:FindFirstChild('Torso') then
+							if _G.FREE_FOR_ALL == false then
+								if v.TeamColor ~= PLAYER.TeamColor then
+									if v.Character:FindFirstChild('Torso') then
+										CREATE(v.Character.Head, true)
+									end
+								end
+							else
+								if v.Character:FindFirstChild('Torso') then
+									CREATE(v.Character.Head, true)
+								end
+							end
+						end
+					end
+				end
+			end
+			wait(1)
+		end)
+	end
+
+	local player = game.Players.LocalPlayer
+	local mouse = player:GetMouse() -- get the mouse
+	local ReplicatedStorage = game:GetService("ReplicatedStorage")
+	local ready = true
+	game:GetService('RunService').RenderStepped:connect(function()
+		if ENABLED then
+			local TARGET = GetNearestPlayerToMouse()
+			if (TARGET ~= true) then
+				local AIM = TARGET.Character:FindFirstChild(_G.AIM_AT)
+				if AIM then
+					CC.CoordinateFrame = CFrame.new(CC.CoordinateFrame.p, AIM.CFrame.p)
+				end
+
+			end
+		end
+	end)
+
+	wait()
+	Respawn = false
+
+	Players = game:GetService("Players")
+	LocalPlayer = game.Players.LocalPlayer
+	LocalCharacter = LocalPlayer.Character
+	LocalCFrame = LocalCharacter.HumanoidRootPart.CFrame
+
+warn("Kill All Enabled, Thanks WetWipes!")
+	while wait(0.3) do
+		if LocalCharacter and LocalPlayer.Character and KillAll then
+			if Respawn then
+				keypress(0x20)
+			end
+			for i, player in pairs(Players:GetPlayers()) do
+				if player.TeamColor ~= LocalPlayer.TeamColor and player.Character and player.Character.HumanoidRootPart then
+					end
+
+					Players = game:GetService("Players")
+					LocalPlayer = game.Players.LocalPlayer
+					LocalCharacter = LocalPlayer.Character
+					LocalCFrame = LocalCharacter.HumanoidRootPart.CFrame
+
+					root = game.Players.LocalPlayer.Character.HumanoidRootPart
+					root.CFrame = player.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3)
+					mouse1click()
+					wait(0.1)
+				end
+			end
+		end
+    
+end)
+
+local CombatButton = CombatPage.AddButton("Silent Aim (Q = On, E = Off)", function()
+    
+local Players       = game:GetService("Players"); --> Wally is sexy!
+local Player        = Players.LocalPlayer;
+local scriptEnv     = require(game:GetService("ReplicatedStorage").Framework.Library);
+local network       = scriptEnv.Network;
+local gunCmds       = scriptEnv.GunCmds;
+local SilentAimTog  = false;
+local UnlockAllTog  = false;
+game:GetService("UserInputService").InputBegan:Connect(function(io)
+	if io.KeyCode == Enum.KeyCode.Q then -- true when pressed Q or F9
+		SilentAimTog = true
+	elseif io.KeyCode == Enum.KeyCode.E then -- only true when pressed F9
+		SilentAimTog = false
+	end
+end)
+local function getClosestPlayer()
+    local shortestDistance, closestPlayer  = math.huge;
+
+    for i, v in next, Players:GetPlayers() do
+        if (v.Name ~= Player.Name and v.Team ~= Player.Team and Player.Character and Player.Character:FindFirstChild("HumanoidRootPart") and v.Character and v.Character:FindFirstChild("HumanoidRootPart")) then
+            local mag = (v.Character.HumanoidRootPart.Position - Player.Character.HumanoidRootPart.Position).magnitude;
+            
+            if (mag < shortestDistance) then
+                closestPlayer = v;
+                shortestDistance = mag;
+            end;
+        end;
+    end;
+
+    return closestPlayer;
+end;
+
+local function kill(code, plr)
+    if (code and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart")) then
+        local data = 
+            {
+                [1] = 
+            {
+                [1] = plr.Character.Humanoid;
+                [2] = code;
+                [3] = 235;
+                [4] = plr.Character.HumanoidRootPart.Position;
+                [5] = false;
+            };
+                [2] = 
+            {
+                [1] = false;
+                [2] = false;
+                [3] = false;
+                [4] = false;
+                [5] = false;
+            };
+        };
+
+        game:GetService("Workspace"):FindFirstChild("__THINGS"):FindFirstChild("__REMOTES"):FindFirstChild("do damage"):FireServer(data);
+    end;
+end;
+
+wait(1)
+do
+    local oldUnlockAll = gunCmds.DoesOwnGun;
+
+    gunCmds.DoesOwnGun = newcclosure(function(...)
+        if (UnlockAllTog) then
+            return true;
+        end;
+
+        return oldUnlockAll(...);
+    end);
+end;
+
+do
+    local oldFire = network.Fire;
+
+    network.Fire = newcclosure(function(self, ...)
+        local args = {...};
+
+        if (tostring(self) == "New Projectile" and SilentAimTog) then
+            local closePlayer = getClosestPlayer();
+
+            if (closePlayer) then
+                kill(args[2], closePlayer); --> Epic func
+            end;
+        elseif (tostring(self) == "Request Respawn" and UnlockAllTog) then
+            args[1] = "1"; --> Easy peasy bypass :)
+        end;
+
+        return oldFire(self, unpack(args));
+    end);
+end;
+
+warn("Legit Silent Aim Enabled!");
+    
+end)
+
+
+
+--------ESP--------
+
+--Basic ESP--
+local ESPToggle = ThirdPage.AddToggle("Basic Esp", false, function(Value)
+if toggle == false
+then toggle = true
+    
+--// Made by Blissful#4992 - R15 Skeleton ESP
+--//Options:
+local Settings = {
+    Color = Color3.fromRGB(255, 0, 0), -- Color of the lines of the skeleton
+    Thickness = 2, -- Thickness of the lines of the Skeleton
+    Transparency = 1, -- 1 Visible - 0 Not Visible
+    AutoThickness = true -- Makes Thickness above futile, scales according to distance, good for less encumbered screen
+}
+
+--//Locals, etc:
+local plr = game.Players.LocalPlayer
+local camera = game.Workspace.CurrentCamera
+
+local function NewLine()
+    local line = Drawing.new("Line")
+    line.Visible = false
+    line.From = Vector2.new(0, 0)
+    line.To = Vector2.new(0, 0)
+    line.Color = Settings.Color
+    line.Thickness = Settings.Thickness
+    line.Transparency = Settings.Transparency
+    return line
+end
+
+--//Separation: Main Function
+
+for i, v in pairs(game:GetService("Players"):GetPlayers()) do
+    local R15
+    spawn(function()
+        repeat wait() until v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil
+        R15 = (v.Character.Humanoid.RigType == Enum.HumanoidRigType.R15) and true or false
+    end)
+
+    local Spine = {}
+    local SpineNames = {}
+    local connecthead = NewLine()
+
+    local LLeg = {}
+    local LLegNames = {}
+    local connectlegleft = NewLine()
+
+    local RLeg = {}
+    local RLegNames = {}
+    local connectlegright = NewLine()
+
+    local LArm = {}
+    local LArmNames = {}
+    local connectarmleft = NewLine()
+
+    local RArm = {}
+    local RArmNames = {}
+    local connectarmright = NewLine()
+    
+    for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+        if v:IsA("BasePart") and v.Transparency ~= 1 then
+            if v.Name == "UpperTorso" or v.Name == "Torso" or v.Name == "HumanoidRootPart" or v.Name == "LowerTorso" then
+                table.insert(SpineNames, v.Name)
+                Spine[v.Name] = NewLine()
+            end
+            if v.Name == "LeftLeg" or v.Name == "LeftUpperLeg" or v.Name == "LeftLowerLeg" or v.Name == "LeftFoot" then
+                table.insert(LLegNames, v.Name)
+                LLeg[v.Name] = NewLine()
+            end
+            if v.Name == "RightLeg" or v.Name == "RightUpperLeg" or v.Name == "RightLowerLeg" or v.Name == "RightFoot" then
+                table.insert(RLegNames, v.Name)
+                RLeg[v.Name] = NewLine()
+            end
+            if v.Name == "LeftArm" or v.Name == "LeftUpperArm" or v.Name == "LeftLowerArm" or v.Name == "LeftHand" then
+                table.insert(LArmNames, v.Name)
+                LArm[v.Name] = NewLine()
+            end
+            if v.Name == "RightArm" or v.Name == "RightUpperArm" or v.Name == "RightLowerArm" or v.Name == "RightHand" then
+                table.insert(RArmNames, v.Name)
+                RArm[v.Name] = NewLine()
+            end
+        end
+    end 
+
+    local function ESP()
+        local function ConnectLimbs(limb, root, connector)
+            if v.Character:FindFirstChild(root) ~= nil and v.Character:FindFirstChild(limb) ~= nil then
+                local pos1 = camera:WorldToViewportPoint(v.Character:FindFirstChild(root).Position)
+                local pos2 = camera:WorldToViewportPoint(v.Character:FindFirstChild(limb).Position)
+                connector.From = Vector2.new(pos1.X, pos1.Y)
+                connector.To = Vector2.new(pos2.X, pos2.Y)
+            end
+        end
+        local function Visibility(state)
+            connecthead.Visible = state
+            connectarmleft.Visible = state
+            connectarmright.Visible = state
+            connectlegleft.Visible = state
+            connectlegright.Visible = state
+            for u, x in pairs(Spine) do
+                x.Visible = state
+            end
+            for u, x in pairs(LLeg) do
+                x.Visible = state
+            end
+            for u, x in pairs(RLeg) do
+                x.Visible = state
+            end
+            for u, x in pairs(LArm) do
+                x.Visible = state
+            end
+            for u, x in pairs(RArm) do
+                x.Visible = state
+            end
+        end
+        local function Thickness(state)
+            connecthead.Thickness = state
+            connectarmleft.Thickness = state
+            connectarmright.Thickness = state
+            connectlegleft.Thickness = state
+            connectlegright.Thickness = state
+            for u, x in pairs(Spine) do
+                x.Thickness = state
+            end
+            for u, x in pairs(LLeg) do
+                x.Thickness = state
+            end
+            for u, x in pairs(RLeg) do
+                x.Thickness = state
+            end
+            for u, x in pairs(LArm) do
+                x.Thickness = state
+            end
+            for u, x in pairs(RArm) do
+                x.Thickness = state
+            end
+        end
+        local function Color(color)
+            connecthead.Color = color
+            connectarmleft.Color = color
+            connectarmright.Color = color
+            connectlegleft.Color = color
+            connectlegright.Color = color
+            for u, x in pairs(Spine) do
+                x.Color = color
+            end
+            for u, x in pairs(LLeg) do
+                x.Color = color
+            end
+            for u, x in pairs(RLeg) do
+                x.Color = color
+            end
+            for u, x in pairs(LArm) do
+                x.Color = color
+            end
+            for u, x in pairs(RArm) do
+                x.Color = color
+            end
+        end
+
+        local connection
+        connection = game:GetService("RunService").RenderStepped:Connect(function()
+            if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v.Name ~= plr.Name and v.Character.Humanoid.Health > 0 then
+                local pos, vis = camera:WorldToViewportPoint(v.Character.HumanoidRootPart.Position)
+                if vis then 
+                    if R15 then
+                        local a = 0
+                        for u, x in pairs(Spine) do
+                            a=a+1
+                            if SpineNames[a+1] ~= nil and v.Character:FindFirstChild(SpineNames[a+1]) ~= nil and v.Character:FindFirstChild(SpineNames[a+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(v.Character:FindFirstChild(SpineNames[a]).Position)
+                                local pos2 = camera:WorldToViewportPoint(v.Character:FindFirstChild(SpineNames[a+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local b = 0
+                        for u, x in pairs(LArm) do
+                            b=b+1
+                            if LArmNames[b+1] ~= nil and v.Character:FindFirstChild(LArmNames[b+1]) ~= nil and v.Character:FindFirstChild(LArmNames[b+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(v.Character:FindFirstChild(LArmNames[b]).Position)
+                                local pos2 = camera:WorldToViewportPoint(v.Character:FindFirstChild(LArmNames[b+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local c = 0
+                        for u, x in pairs(RArm) do
+                            c=c+1
+                            if RArmNames[c+1] ~= nil and v.Character:FindFirstChild(RArmNames[c+1]) ~= nil and v.Character:FindFirstChild(RArmNames[c+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(v.Character:FindFirstChild(RArmNames[c]).Position)
+                                local pos2 = camera:WorldToViewportPoint(v.Character:FindFirstChild(RArmNames[c+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local d = 0
+                        for u, x in pairs(LLeg) do
+                            d=d+1
+                            if LLegNames[d+1] ~= nil and v.Character:FindFirstChild(LLegNames[d+1]) ~= nil and v.Character:FindFirstChild(LLegNames[d+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(v.Character:FindFirstChild(LLegNames[d]).Position)
+                                local pos2 = camera:WorldToViewportPoint(v.Character:FindFirstChild(LLegNames[d+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local e = 0
+                        for u, x in pairs(RLeg) do
+                            e=e+1
+                            if RRLegNames[e+1] ~= nil and v.Character:FindFirstChild(RLegNames[e+1]) ~= nil and v.Character:FindFirstChild(RLegNames[e+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(v.Character:FindFirstChild(RLegNames[e]).Position)
+                                local pos2 = camera:WorldToViewportPoint(v.Character:FindFirstChild(RLegNames[e+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        
+                        ConnectLimbs("LeftUpperArm", "UpperTorso", connectarmleft)
+                        ConnectLimbs("RightUpperArm", "UpperTorso", connectarmright)
+                        ConnectLimbs("LeftUpperLeg", "LowerTorso", connectlegleft)
+                        ConnectLimbs("RightUpperLeg", "LowerTorso", connectlegright)
+                        ConnectLimbs("UpperTorso", "Head", connecthead)
+                    end
+
+                    if Settings.AutoThickness then
+                        local distance = (plr.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).magnitude
+                        local value = math.clamp(1/distance*100, 0.1, 3) --0.1 is min thickness, 4 is max
+                        Thickness(value)
+                    else 
+                        Thickness(Settings.Thickness)
+                    end
+
+                    Visibility(true)
+                else 
+                    Visibility(false)
+                end
+            else 
+                Visibility(false)
+                if game.Players:FindFirstChild(v.Name) == nil then
+                    connection:Disconnect()
+                end
+            end
+        end)
+    end
+    coroutine.wrap(ESP)()
+end
+
+--// Made by Blissful#4992
+
+-- For when a player gets added:
+game.Players.PlayerAdded:Connect(function(newplr)
+    repeat wait() until newplr.Character ~= nil and newplr.Character:FindFirstChild("Humanoid") ~= nil and newplr.Character:FindFirstChild("HumanoidRootPart") ~= nil
+    local R15 = (newplr.Character.Humanoid.RigType == Enum.HumanoidRigType.R15) and true or false
+
+    local Spine = {}
+    local SpineNames = {}
+    local connecthead = NewLine()
+
+    local LLeg = {}
+    local LLegNames = {}
+    local connectlegleft = NewLine()
+
+    local RLeg = {}
+    local RLegNames = {}
+    local connectlegright = NewLine()
+
+    local LArm = {}
+    local LArmNames = {}
+    local connectarmleft = NewLine()
+
+    local RArm = {}
+    local RArmNames = {}
+    local connectarmright = NewLine()
+    
+    for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+        if v:IsA("BasePart") and v.Transparency ~= 1 then
+            if v.Name == "UpperTorso" or v.Name == "Torso" or v.Name == "HumanoidRootPart" or v.Name == "LowerTorso" then
+                table.insert(SpineNames, v.Name)
+                Spine[v.Name] = NewLine()
+            end
+            if v.Name == "LeftLeg" or v.Name == "LeftUpperLeg" or v.Name == "LeftLowerLeg" or v.Name == "LeftFoot" then
+                table.insert(LLegNames, v.Name)
+                LLeg[v.Name] = NewLine()
+            end
+            if v.Name == "RightLeg" or v.Name == "RightUpperLeg" or v.Name == "RightLowerLeg" or v.Name == "RightFoot" then
+                table.insert(RLegNames, v.Name)
+                RLeg[v.Name] = NewLine()
+            end
+            if v.Name == "LeftArm" or v.Name == "LeftUpperArm" or v.Name == "LeftLowerArm" or v.Name == "LeftHand" then
+                table.insert(LArmNames, v.Name)
+                LArm[v.Name] = NewLine()
+            end
+            if v.Name == "RightArm" or v.Name == "RightUpperArm" or v.Name == "RightLowerArm" or v.Name == "RightHand" then
+                table.insert(RArmNames, v.Name)
+                RArm[v.Name] = NewLine()
+            end
+        end
+    end
+    
+
+    local function ESP()
+        local function ConnectLimbs(limb, root, connector)
+            if newplr.Character:FindFirstChild(root) ~= nil and newplr.Character:FindFirstChild(limb) ~= nil then
+                local pos1 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(root).Position)
+                local pos2 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(limb).Position)
+                connector.From = Vector2.new(pos1.X, pos1.Y)
+                connector.To = Vector2.new(pos2.X, pos2.Y)
+            end
+        end
+        local function Visibility(state)
+            connecthead.Visible = state
+            connectarmleft.Visible = state
+            connectarmright.Visible = state
+            connectlegleft.Visible = state
+            connectlegright.Visible = state
+            for u, x in pairs(Spine) do
+                x.Visible = state
+            end
+            for u, x in pairs(LLeg) do
+                x.Visible = state
+            end
+            for u, x in pairs(RLeg) do
+                x.Visible = state
+            end
+            for u, x in pairs(LArm) do
+                x.Visible = state
+            end
+            for u, x in pairs(RArm) do
+                x.Visible = state
+            end
+        end
+        local function Thickness(state)
+            connecthead.Thickness = state
+            connectarmleft.Thickness = state
+            connectarmright.Thickness = state
+            connectlegleft.Thickness = state
+            connectlegright.Thickness = state
+            for u, x in pairs(Spine) do
+                x.Thickness = state
+            end
+            for u, x in pairs(LLeg) do
+                x.Thickness = state
+            end
+            for u, x in pairs(RLeg) do
+                x.Thickness = state
+            end
+            for u, x in pairs(LArm) do
+                x.Thickness = state
+            end
+            for u, x in pairs(RArm) do
+                x.Thickness = state
+            end
+        end
+        local function Color(color)
+            connecthead.Color = color
+            connectarmleft.Color = color
+            connectarmright.Color = color
+            connectlegleft.Color = color
+            connectlegright.Color = color
+            for u, x in pairs(Spine) do
+                x.Color = color
+            end
+            for u, x in pairs(LLeg) do
+                x.Color = color
+            end
+            for u, x in pairs(RLeg) do
+                x.Color = color
+            end
+            for u, x in pairs(LArm) do
+                x.Color = color
+            end
+            for u, x in pairs(RArm) do
+                x.Color = color
+            end
+        end
+
+        local connection
+        connection = game:GetService("RunService").RenderStepped:Connect(function()
+            if newplr.Character ~= nil and newplr.Character:FindFirstChild("Humanoid") ~= nil and newplr.Character:FindFirstChild("HumanoidRootPart") ~= nil and newplr.Name ~= plr.Name  and newplr.Character.Humanoid.Health > 0 then
+                local pos, vis = camera:WorldToViewportPoint(newplr.Character.HumanoidRootPart.Position)
+                if vis then 
+                    if R15 then
+                        local a = 0
+                        for u, x in pairs(Spine) do
+                            a=a+1
+                            if SpineNames[a+1] ~= nil and newplr.Character:FindFirstChild(SpineNames[a+1]) ~= nil and newplr.Character:FindFirstChild(SpineNames[a+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(SpineNames[a]).Position)
+                                local pos2 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(SpineNames[a+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local b = 0
+                        for u, x in pairs(LArm) do
+                            b=b+1
+                            if LArmNames[b+1] ~= nil and newplr.Character:FindFirstChild(LArmNames[b+1]) ~= nil and newplr.Character:FindFirstChild(LArmNames[b+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(LArmNames[b]).Position)
+                                local pos2 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(LArmNames[b+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local c = 0
+                        for u, x in pairs(RArm) do
+                            c=c+1
+                            if RArmNames[c+1] ~= nil and newplr.Character:FindFirstChild(RArmNames[c+1]) ~= nil and newplr.Character:FindFirstChild(RArmNames[c+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(RArmNames[c]).Position)
+                                local pos2 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(RArmNames[c+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local d = 0
+                        for u, x in pairs(LLeg) do
+                            d=d+1
+                            if LLegNames[d+1] ~= nil and newplr.Character:FindFirstChild(LLegNames[d+1]) ~= nil and newplr.Character:FindFirstChild(LLegNames[d+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(LLegNames[d]).Position)
+                                local pos2 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(LLegNames[d+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local e = 0
+                        for u, x in pairs(RLeg) do
+                            e=e+1
+                            if RLegNames[e+1] ~= nil and newplr.Character:FindFirstChild(RLegNames[e+1]) ~= nil and newplr.Character:FindFirstChild(RLegNames[e+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(RLegNames[e]).Position)
+                                local pos2 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(RLegNames[e+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        
+                        ConnectLimbs("LeftUpperArm", "UpperTorso", connectarmleft)
+                        ConnectLimbs("RightUpperArm", "UpperTorso", connectarmright)
+                        ConnectLimbs("LeftUpperLeg", "LowerTorso", connectlegleft)
+                        ConnectLimbs("RightUpperLeg", "LowerTorso", connectlegright)
+                        ConnectLimbs("UpperTorso", "Head", connecthead)
+                    end
+
+                    if Settings.AutoThickness then
+                        local distance = (plr.Character.HumanoidRootPart.Position - newplr.Character.HumanoidRootPart.Position).magnitude
+                        local value = math.clamp(1/distance*100, 0.1, 3) --0.1 is min thickness, 4 is max
+                        Thickness(value)
+                    else 
+                        Thickness(Settings.Thickness)
+                    end
+
+                    Visibility(true)
+                else 
+                    Visibility(false)
+                end
+            else 
+                Visibility(false)
+                if game.Players:FindFirstChild(newplr.Name) == nil then
+                    connection:Disconnect()
+                end
+            end
+        end)
+    end
+    coroutine.wrap(ESP)()
+end)
+--// Made by Blissful#4992
+
+    else
+        toggle = false
+        
+--// Made by Blissful#4992 - R15 Skeleton ESP
+--//Options:
+local Settings = {
+    Color = Color3.fromRGB(255, 0, 0), -- Color of the lines of the skeleton
+    Thickness = 2, -- Thickness of the lines of the Skeleton
+    Transparency = 1, -- 1 Visible - 0 Not Visible
+    AutoThickness = true -- Makes Thickness above futile, scales according to distance, good for less encumbered screen
+}
+
+--//Locals, etc:
+local plr = game.Players.LocalPlayer
+local camera = game.Workspace.CurrentCamera
+
+local function NewLine()
+    local line = Drawing.new("Line")
+    line.Visible = true
+    line.From = Vector2.new(0, 0)
+    line.To = Vector2.new(0, 0)
+    line.Color = Settings.Color
+    line.Thickness = Settings.Thickness
+    line.Transparency = Settings.Transparency
+    return line
+end
+
+--//Separation: Main Function
+
+for i, v in pairs(game:GetService("Players"):GetPlayers()) do
+    local R15
+    spawn(function()
+        repeat wait() until v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil
+        R15 = (v.Character.Humanoid.RigType == Enum.HumanoidRigType.R15) and true or false
+    end)
+
+    local Spine = {}
+    local SpineNames = {}
+    local connecthead = NewLine()
+
+    local LLeg = {}
+    local LLegNames = {}
+    local connectlegleft = NewLine()
+
+    local RLeg = {}
+    local RLegNames = {}
+    local connectlegright = NewLine()
+
+    local LArm = {}
+    local LArmNames = {}
+    local connectarmleft = NewLine()
+
+    local RArm = {}
+    local RArmNames = {}
+    local connectarmright = NewLine()
+    
+    for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+        if v:IsA("BasePart") and v.Transparency ~= 1 then
+            if v.Name == "UpperTorso" or v.Name == "Torso" or v.Name == "HumanoidRootPart" or v.Name == "LowerTorso" then
+                table.insert(SpineNames, v.Name)
+                Spine[v.Name] = NewLine()
+            end
+            if v.Name == "LeftLeg" or v.Name == "LeftUpperLeg" or v.Name == "LeftLowerLeg" or v.Name == "LeftFoot" then
+                table.insert(LLegNames, v.Name)
+                LLeg[v.Name] = NewLine()
+            end
+            if v.Name == "RightLeg" or v.Name == "RightUpperLeg" or v.Name == "RightLowerLeg" or v.Name == "RightFoot" then
+                table.insert(RLegNames, v.Name)
+                RLeg[v.Name] = NewLine()
+            end
+            if v.Name == "LeftArm" or v.Name == "LeftUpperArm" or v.Name == "LeftLowerArm" or v.Name == "LeftHand" then
+                table.insert(LArmNames, v.Name)
+                LArm[v.Name] = NewLine()
+            end
+            if v.Name == "RightArm" or v.Name == "RightUpperArm" or v.Name == "RightLowerArm" or v.Name == "RightHand" then
+                table.insert(RArmNames, v.Name)
+                RArm[v.Name] = NewLine()
+            end
+        end
+    end 
+
+    local function ESP()
+        local function ConnectLimbs(limb, root, connector)
+            if v.Character:FindFirstChild(root) ~= nil and v.Character:FindFirstChild(limb) ~= nil then
+                local pos1 = camera:WorldToViewportPoint(v.Character:FindFirstChild(root).Position)
+                local pos2 = camera:WorldToViewportPoint(v.Character:FindFirstChild(limb).Position)
+                connector.From = Vector2.new(pos1.X, pos1.Y)
+                connector.To = Vector2.new(pos2.X, pos2.Y)
+            end
+        end
+        local function Visibility(state)
+            connecthead.Visible = state
+            connectarmleft.Visible = state
+            connectarmright.Visible = state
+            connectlegleft.Visible = state
+            connectlegright.Visible = state
+            for u, x in pairs(Spine) do
+                x.Visible = state
+            end
+            for u, x in pairs(LLeg) do
+                x.Visible = state
+            end
+            for u, x in pairs(RLeg) do
+                x.Visible = state
+            end
+            for u, x in pairs(LArm) do
+                x.Visible = state
+            end
+            for u, x in pairs(RArm) do
+                x.Visible = state
+            end
+        end
+        local function Thickness(state)
+            connecthead.Thickness = state
+            connectarmleft.Thickness = state
+            connectarmright.Thickness = state
+            connectlegleft.Thickness = state
+            connectlegright.Thickness = state
+            for u, x in pairs(Spine) do
+                x.Thickness = state
+            end
+            for u, x in pairs(LLeg) do
+                x.Thickness = state
+            end
+            for u, x in pairs(RLeg) do
+                x.Thickness = state
+            end
+            for u, x in pairs(LArm) do
+                x.Thickness = state
+            end
+            for u, x in pairs(RArm) do
+                x.Thickness = state
+            end
+        end
+        local function Color(color)
+            connecthead.Color = color
+            connectarmleft.Color = color
+            connectarmright.Color = color
+            connectlegleft.Color = color
+            connectlegright.Color = color
+            for u, x in pairs(Spine) do
+                x.Color = color
+            end
+            for u, x in pairs(LLeg) do
+                x.Color = color
+            end
+            for u, x in pairs(RLeg) do
+                x.Color = color
+            end
+            for u, x in pairs(LArm) do
+                x.Color = color
+            end
+            for u, x in pairs(RArm) do
+                x.Color = color
+            end
+        end
+
+        local connection
+        connection = game:GetService("RunService").RenderStepped:Connect(function()
+            if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v.Name ~= plr.Name and v.Character.Humanoid.Health > 0 then
+                local pos, vis = camera:WorldToViewportPoint(v.Character.HumanoidRootPart.Position)
+                if vis then 
+                    if R15 then
+                        local a = 0
+                        for u, x in pairs(Spine) do
+                            a=a+1
+                            if SpineNames[a+1] ~= nil and v.Character:FindFirstChild(SpineNames[a+1]) ~= nil and v.Character:FindFirstChild(SpineNames[a+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(v.Character:FindFirstChild(SpineNames[a]).Position)
+                                local pos2 = camera:WorldToViewportPoint(v.Character:FindFirstChild(SpineNames[a+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local b = 0
+                        for u, x in pairs(LArm) do
+                            b=b+1
+                            if LArmNames[b+1] ~= nil and v.Character:FindFirstChild(LArmNames[b+1]) ~= nil and v.Character:FindFirstChild(LArmNames[b+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(v.Character:FindFirstChild(LArmNames[b]).Position)
+                                local pos2 = camera:WorldToViewportPoint(v.Character:FindFirstChild(LArmNames[b+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local c = 0
+                        for u, x in pairs(RArm) do
+                            c=c+1
+                            if RArmNames[c+1] ~= nil and v.Character:FindFirstChild(RArmNames[c+1]) ~= nil and v.Character:FindFirstChild(RArmNames[c+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(v.Character:FindFirstChild(RArmNames[c]).Position)
+                                local pos2 = camera:WorldToViewportPoint(v.Character:FindFirstChild(RArmNames[c+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local d = 0
+                        for u, x in pairs(LLeg) do
+                            d=d+1
+                            if LLegNames[d+1] ~= nil and v.Character:FindFirstChild(LLegNames[d+1]) ~= nil and v.Character:FindFirstChild(LLegNames[d+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(v.Character:FindFirstChild(LLegNames[d]).Position)
+                                local pos2 = camera:WorldToViewportPoint(v.Character:FindFirstChild(LLegNames[d+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local e = 0
+                        for u, x in pairs(RLeg) do
+                            e=e+1
+                            if RRLegNames[e+1] ~= nil and v.Character:FindFirstChild(RLegNames[e+1]) ~= nil and v.Character:FindFirstChild(RLegNames[e+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(v.Character:FindFirstChild(RLegNames[e]).Position)
+                                local pos2 = camera:WorldToViewportPoint(v.Character:FindFirstChild(RLegNames[e+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        
+                        ConnectLimbs("LeftUpperArm", "UpperTorso", connectarmleft)
+                        ConnectLimbs("RightUpperArm", "UpperTorso", connectarmright)
+                        ConnectLimbs("LeftUpperLeg", "LowerTorso", connectlegleft)
+                        ConnectLimbs("RightUpperLeg", "LowerTorso", connectlegright)
+                        ConnectLimbs("UpperTorso", "Head", connecthead)
+                    end
+
+                    if Settings.AutoThickness then
+                        local distance = (plr.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).magnitude
+                        local value = math.clamp(1/distance*100, 0.1, 3) --0.1 is min thickness, 4 is max
+                        Thickness(value)
+                    else 
+                        Thickness(Settings.Thickness)
+                    end
+
+                    Visibility(true)
+                else 
+                    Visibility(false)
+                end
+            else 
+                Visibility(false)
+                if game.Players:FindFirstChild(v.Name) == nil then
+                    connection:Disconnect()
+                end
+            end
+        end)
+    end
+    coroutine.wrap(ESP)()
+end
+
+--// Made by Blissful#4992
+
+-- For when a player gets added:
+game.Players.PlayerAdded:Connect(function(newplr)
+    repeat wait() until newplr.Character ~= nil and newplr.Character:FindFirstChild("Humanoid") ~= nil and newplr.Character:FindFirstChild("HumanoidRootPart") ~= nil
+    local R15 = (newplr.Character.Humanoid.RigType == Enum.HumanoidRigType.R15) and true or false
+
+    local Spine = {}
+    local SpineNames = {}
+    local connecthead = NewLine()
+
+    local LLeg = {}
+    local LLegNames = {}
+    local connectlegleft = NewLine()
+
+    local RLeg = {}
+    local RLegNames = {}
+    local connectlegright = NewLine()
+
+    local LArm = {}
+    local LArmNames = {}
+    local connectarmleft = NewLine()
+
+    local RArm = {}
+    local RArmNames = {}
+    local connectarmright = NewLine()
+    
+    for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+        if v:IsA("BasePart") and v.Transparency ~= 1 then
+            if v.Name == "UpperTorso" or v.Name == "Torso" or v.Name == "HumanoidRootPart" or v.Name == "LowerTorso" then
+                table.insert(SpineNames, v.Name)
+                Spine[v.Name] = NewLine()
+            end
+            if v.Name == "LeftLeg" or v.Name == "LeftUpperLeg" or v.Name == "LeftLowerLeg" or v.Name == "LeftFoot" then
+                table.insert(LLegNames, v.Name)
+                LLeg[v.Name] = NewLine()
+            end
+            if v.Name == "RightLeg" or v.Name == "RightUpperLeg" or v.Name == "RightLowerLeg" or v.Name == "RightFoot" then
+                table.insert(RLegNames, v.Name)
+                RLeg[v.Name] = NewLine()
+            end
+            if v.Name == "LeftArm" or v.Name == "LeftUpperArm" or v.Name == "LeftLowerArm" or v.Name == "LeftHand" then
+                table.insert(LArmNames, v.Name)
+                LArm[v.Name] = NewLine()
+            end
+            if v.Name == "RightArm" or v.Name == "RightUpperArm" or v.Name == "RightLowerArm" or v.Name == "RightHand" then
+                table.insert(RArmNames, v.Name)
+                RArm[v.Name] = NewLine()
+            end
+        end
+    end
+    
+
+    local function ESP()
+        local function ConnectLimbs(limb, root, connector)
+            if newplr.Character:FindFirstChild(root) ~= nil and newplr.Character:FindFirstChild(limb) ~= nil then
+                local pos1 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(root).Position)
+                local pos2 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(limb).Position)
+                connector.From = Vector2.new(pos1.X, pos1.Y)
+                connector.To = Vector2.new(pos2.X, pos2.Y)
+            end
+        end
+        local function Visibility(state)
+            connecthead.Visible = state
+            connectarmleft.Visible = state
+            connectarmright.Visible = state
+            connectlegleft.Visible = state
+            connectlegright.Visible = state
+            for u, x in pairs(Spine) do
+                x.Visible = state
+            end
+            for u, x in pairs(LLeg) do
+                x.Visible = state
+            end
+            for u, x in pairs(RLeg) do
+                x.Visible = state
+            end
+            for u, x in pairs(LArm) do
+                x.Visible = state
+            end
+            for u, x in pairs(RArm) do
+                x.Visible = state
+            end
+        end
+        local function Thickness(state)
+            connecthead.Thickness = state
+            connectarmleft.Thickness = state
+            connectarmright.Thickness = state
+            connectlegleft.Thickness = state
+            connectlegright.Thickness = state
+            for u, x in pairs(Spine) do
+                x.Thickness = state
+            end
+            for u, x in pairs(LLeg) do
+                x.Thickness = state
+            end
+            for u, x in pairs(RLeg) do
+                x.Thickness = state
+            end
+            for u, x in pairs(LArm) do
+                x.Thickness = state
+            end
+            for u, x in pairs(RArm) do
+                x.Thickness = state
+            end
+        end
+        local function Color(color)
+            connecthead.Color = color
+            connectarmleft.Color = color
+            connectarmright.Color = color
+            connectlegleft.Color = color
+            connectlegright.Color = color
+            for u, x in pairs(Spine) do
+                x.Color = color
+            end
+            for u, x in pairs(LLeg) do
+                x.Color = color
+            end
+            for u, x in pairs(RLeg) do
+                x.Color = color
+            end
+            for u, x in pairs(LArm) do
+                x.Color = color
+            end
+            for u, x in pairs(RArm) do
+                x.Color = color
+            end
+        end
+
+        local connection
+        connection = game:GetService("RunService").RenderStepped:Connect(function()
+            if newplr.Character ~= nil and newplr.Character:FindFirstChild("Humanoid") ~= nil and newplr.Character:FindFirstChild("HumanoidRootPart") ~= nil and newplr.Name ~= plr.Name  and newplr.Character.Humanoid.Health > 0 then
+                local pos, vis = camera:WorldToViewportPoint(newplr.Character.HumanoidRootPart.Position)
+                if vis then 
+                    if R15 then
+                        local a = 0
+                        for u, x in pairs(Spine) do
+                            a=a+1
+                            if SpineNames[a+1] ~= nil and newplr.Character:FindFirstChild(SpineNames[a+1]) ~= nil and newplr.Character:FindFirstChild(SpineNames[a+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(SpineNames[a]).Position)
+                                local pos2 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(SpineNames[a+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local b = 0
+                        for u, x in pairs(LArm) do
+                            b=b+1
+                            if LArmNames[b+1] ~= nil and newplr.Character:FindFirstChild(LArmNames[b+1]) ~= nil and newplr.Character:FindFirstChild(LArmNames[b+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(LArmNames[b]).Position)
+                                local pos2 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(LArmNames[b+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local c = 0
+                        for u, x in pairs(RArm) do
+                            c=c+1
+                            if RArmNames[c+1] ~= nil and newplr.Character:FindFirstChild(RArmNames[c+1]) ~= nil and newplr.Character:FindFirstChild(RArmNames[c+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(RArmNames[c]).Position)
+                                local pos2 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(RArmNames[c+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local d = 0
+                        for u, x in pairs(LLeg) do
+                            d=d+1
+                            if LLegNames[d+1] ~= nil and newplr.Character:FindFirstChild(LLegNames[d+1]) ~= nil and newplr.Character:FindFirstChild(LLegNames[d+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(LLegNames[d]).Position)
+                                local pos2 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(LLegNames[d+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local e = 0
+                        for u, x in pairs(RLeg) do
+                            e=e+1
+                            if RLegNames[e+1] ~= nil and newplr.Character:FindFirstChild(RLegNames[e+1]) ~= nil and newplr.Character:FindFirstChild(RLegNames[e+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(RLegNames[e]).Position)
+                                local pos2 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(RLegNames[e+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        
+                        ConnectLimbs("LeftUpperArm", "UpperTorso", connectarmleft)
+                        ConnectLimbs("RightUpperArm", "UpperTorso", connectarmright)
+                        ConnectLimbs("LeftUpperLeg", "LowerTorso", connectlegleft)
+                        ConnectLimbs("RightUpperLeg", "LowerTorso", connectlegright)
+                        ConnectLimbs("UpperTorso", "Head", connecthead)
+                    end
+
+                    if Settings.AutoThickness then
+                        local distance = (plr.Character.HumanoidRootPart.Position - newplr.Character.HumanoidRootPart.Position).magnitude
+                        local value = math.clamp(1/distance*100, 0.1, 3) --0.1 is min thickness, 4 is max
+                        Thickness(value)
+                    else 
+                        Thickness(Settings.Thickness)
+                    end
+
+                    Visibility(true)
+                else 
+                    Visibility(false)
+                end
+            else 
+                Visibility(false)
+                if game.Players:FindFirstChild(newplr.Name) == nil then
+                    connection:Disconnect()
+                end
+            end
+        end)
+    end
+    coroutine.wrap(ESP)()
+end)
+--// Made by Blissful#4992
+        end
+end)
+
+--ADVANCED ESP--
+local ESPToggle = ThirdPage.AddToggle("Advanced Esp", false, function(Value)
+if toggle == false
+then toggle = true
+    
+    shared.Visuals = { --// Configuration (Will load default settings if shared.Visuals doesn't exist.)
+    Enabled = false,
+    CrosshairEnabled = true,
+    Boxes = true,
+    Healthbar = true,
+    Tracers = true,
+    Info = true,
+    ShowAllyTeam = true,
+    UseTeamColor = true,
+    AllyColor = Color3.fromRGB(0, 255, 0),
+    EnemyColor = Color3.fromRGB(255, 0, 0),
+    Crosshair = {
+        Size = 5,
+        Thickness = 1.5,
+        Offset = 5
+    }
+}
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/coastss/releases/main/universal_visuals.lua"))()
+    else
+        toggle = false
+        
+        shared.Visuals = { --// Configuration (Will load default settings if shared.Visuals doesn't exist.)
+    Enabled = true,
+    CrosshairEnabled = true,
+    Boxes = true,
+    Healthbar = true,
+    Tracers = true,
+    Info = true,
+    ShowAllyTeam = true,
+    UseTeamColor = true,
+    AllyColor = Color3.fromRGB(0, 255, 0),
+    EnemyColor = Color3.fromRGB(255, 0, 0),
+    Crosshair = {
+        Size = 5,
+        Thickness = 1.5,
+        Offset = 5
+    }
+}
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/coastss/releases/main/universal_visuals.lua"))()
+        end
+end)
+
+--Radar ESP--
+local ESPButton = ThirdPage.AddButton("Radar ESP (Purple)", function()
+    
+function newRadarESP(c)
+   local radarESP = game.ReplicatedStorage.Assets.RadarPing:Clone()
+   radarESP.Parent = c.Head
+end
+for i,v in pairs(game.Players:GetPlayers())do
+   if v~=game.Players.LocalPlayer then
+       newRadarESP(v.Character)
+       v.CharacterAdded:Connect(function(c)
+           repeat wait()until c:FindFirstChild("Head")
+           newRadarESP(c)
+       end)
+   end
+end
+game.Players.PlayerAdded:Connect(function(p)
+   p.CharacterAdded:Connect(function(c)
+       repeat wait()until c:FindFirstChild("Head")
+       newRadarESP(c)
+   end)
+end)
+
+end)
+
+--Turret ESP--
+local ESPButton = ThirdPage.AddButton("Turret ESP (Red)", function()
+    
+for i,v in pairs(game.Workspace.__THINGS.Sentries:GetChildren())do
+   local gadgetESP=game.ReplicatedStorage.Assets.GadgetIndicator:Clone()
+   gadgetESP.Parent=v["Turret Bottom"]
+   gadgetESP.Frame.BackgroundColor3=Color3.fromRGB(255,30,30)
+end
+game.Workspace.__THINGS.Sentries.ChildAdded:Connect(function(c)
+   if tostring(c)==tostring(game.Players.LocalPlayer) then return end
+   repeat wait()until c:FindFirstChild("Turret Bottom")
+   local gadgetESP=game.ReplicatedStorage.Assets.GadgetIndicator:Clone()
+   gadgetESP.Parent=c["Turret Bottom"]
+   gadgetESP.Frame.BackgroundColor3=Color3.fromRGB(255,30,30)
+end)
+
+end)
+
+--Drone ESP--
+local ESPButton = ThirdPage.AddButton("Drone ESP (Blue)", function()
+    
+for i,v in pairs(game.Workspace.__THINGS.Drones:GetChildren())do
+   local gadgetESP=game.ReplicatedStorage.Assets.GadgetIndicator:Clone()
+   gadgetESP.Parent=v["Base"]
+   gadgetESP.Frame.BackgroundColor3=Color3.fromRGB(255,30,30)
+end
+game.Workspace.__THINGS.Drones.ChildAdded:Connect(function(c)
+   if tostring(c)==tostring(game.Players.LocalPlayer) then return end
+   repeat wait()until c:FindFirstChild("Base")
+   local gadgetESP=game.ReplicatedStorage.Assets.GadgetIndicator:Clone()
+   gadgetESP.Parent=c["Base"]
+   gadgetESP.Frame.BackgroundColor3=Color3.fromRGB(30,30,255)
+end)
+
+end)
+--------Misc--------
+
+local WalkSlider = MiscPage.AddSlider("WalkSpeed", {Min = 16, Max = 100, Def = 0}, function(Value)
+UserWalkSpeed(user, Value)
+end)
+
+local MiscButton = MiscPage.AddButton("Unlock all", function()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/Singularity5490/bigpaintball/main/unlockall.lua'))()
+end)
+
+local MiscButton = MiscPage.AddButton("TP to BanLand", function()
+game:GetService("TeleportService"):Teleport(4505939773, LocalPlayer)
+end)
+
+local MiscButton = MiscPage.AddButton("Destroy all Sentries", function()
+    
+for a,b in pairs(workspace["__THINGS"].Sentries:GetChildren()) do 
+workspace["__THINGS"]["__REMOTES"]["do sentry damage"]:FireServer({[1]={[1]=b,[2]=math.huge},[2]={[1]=false,[2]=false}})
+end
+
+end)
+
+local MiscButton = MiscPage.AddButton("Destroy all Drones", function()
+    
+for a,b in pairs(workspace["__THINGS"].Drones:GetChildren()) do 
+workspace["__THINGS"]["__REMOTES"]["do drone damage"]:FireServer({[1]={[1]=b,[2]=math.huge},[2]={[1]=false,[2]=false}})
+end
+
+end)
+
+end
+end
+
+if game.PlaceId == 4390380541 then
+
+--Made by : https://v3rmillion.net/member.php?action=profile&uid=1078854
+
+local UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/twink"))()
+
+local MainUI = UILibrary.Load("Rumble Quest | SinHub")
+local FirstPage = MainUI.AddPage("Main")
+local FirstLabel = FirstPage.AddLabel("Press R To rapidly damage enemies")
+local FirstButton = FirstPage.AddButton("Rapidly Damage Enemies", function()
+local CreditsPage = MainUI.AddPage("Credits")
+
+local CreditsLabel = CreditsPage.AddLabel("Made by KarumuBlox#2391")
+local CreditsLabel = CreditsPage.AddLabel("UI made by twink marie")
+
+weapon = nil
+murder = false
+directmurder = false
+mouse = game.Players.LocalPlayer:GetMouse()
+
+function GetNearestNPCToMouse()
+    local PLAYERS      = {}
+    local PLAYER_HOLD  = {}
+    local DISTANCES    = {}
+    for i, v in pairs(game.Workspace.Enemies:GetChildren()) do
+        if v ~= game.Players.LocalPlayer then
+            table.insert(PLAYERS, v)
+        end
+    end
+    for i, v in pairs(PLAYERS) do
+        if v.HumanoidRootPart ~= nil then
+            local AIM = v:FindFirstChild("HumanoidRootPart")
+            if AIM ~= nil then
+                local DISTANCE = (v:FindFirstChild("HumanoidRootPart").Position - game.Workspace.CurrentCamera.CFrame.p).magnitude
+                local RAY = Ray.new(game.Workspace.CurrentCamera.CFrame.p, (mouse.Hit.p - game.Workspace.CurrentCamera.CFrame.p).unit * DISTANCE)
+                local HIT,POS = game.Workspace:FindPartOnRay(RAY, game.Workspace)
+                local DIFF = math.floor((POS - AIM.Position).magnitude)
+                PLAYER_HOLD[v.Name .. i] = {}
+                PLAYER_HOLD[v.Name .. i].dist= DISTANCE
+                PLAYER_HOLD[v.Name .. i].plr = v
+                PLAYER_HOLD[v.Name .. i].diff = DIFF
+                table.insert(DISTANCES, DIFF)
+            end
+        end
+    end
+    
+    if unpack(DISTANCES) == nil then
+        return nil
+    end
+    
+    local L_DISTANCE = math.floor(math.min(unpack(DISTANCES)))
+    if L_DISTANCE > 20 then
+        return nil
+    end
+    
+    for i, v in pairs(PLAYER_HOLD) do
+        if v.diff == L_DISTANCE then
+            return v.plr
+        end
+    end
+    return nil
+end
+
+mouse.KeyDown:Connect(function(key)
+    if key == "r" then
+        murder = true
+    end
+end)
+mouse.KeyUp:Connect(function(key)
+    if key == "r" then
+        murder = false
+    end
+end)
+
+mouse.KeyDown:Connect(function(key)
+    if key == "f" then
+        murderdirect = true
+    end
+end)
+mouse.KeyUp:Connect(function(key)
+    if key == "f" then
+        murderdirect = false
+    end
+end)
+
+for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+    if v:IsA("Model") and v:FindFirstChild("Handle") then
+        weapon = v
+    end
+end
+
+
+game:GetService('RunService').Stepped:connect(function()
+    if murder == true then
+        for i, v in pairs(game.Workspace.Enemies:GetChildren()) do
+            if v:FindFirstChild("Humanoid") then
+                game:GetService("ReplicatedStorage").Modules.Network.RemoteEvent:FireServer("WeaponDamage", ""..weapon.Name.."", v.Humanoid)
+            end
+        end
+    end
+    if murderdirect == true then
+        for i, v in pairs(game.Workspace.Enemies:GetChildren()) do
+            if v:FindFirstChild("Humanoid") then
+                local NPC = GetNearestNPCToMouse()
+                game:GetService("ReplicatedStorage").Modules.Network.RemoteEvent:FireServer("WeaponDamage", ""..weapon.Name.."", NPC.Humanoid)
+            end
+        end
+    end
+end)
+
+--[[
+                                                        ..                                          
+                                     /yys.            `hMM/                                        
+                    :ys:            `NMMMo            oMMM:                                        
+                  `sMMMm             -oo:            `NMMy                                          
+                 .hMMMMM+                            +MMN`        `.-::.              `            
+                -mMMyoMMN.         /hho       .:syhhomMMs       -smNMMMNy  `shysssssyhdho          
+               :mMMs``dMMd`        NMMm     .smMNdhdMMMM.     `sNMNs:/MMM. `ydmmmmddMMMN+          
+              +NMMs   -MMMs       :MMM/    +NMNs-  .MMMy     .dMMd- -yMMy    `````/hMMy-            
+            `yMMMmosyhdMMMM+      yMMm    yMMN:   `yMMM/     dMMN+odNMd/        :hMNy:              
+           -dMMMMMMmmdhyhMMM+     NMMo   /MMM-   :dMMMM-    :MMMMNmho-``:/    :hNMh-                
+          +NMMm//-..``  `hMMMo`  -MMM/   yMMm``:hNMyMMM+.-- :MMMy.` `-omMd` /dMMmo/+oooo/`          
+         oMMMh.          `yMMMm/ :MMMs   +MMMmmMNh: hMMNNNy  yMMMmhdmNMm+`:dMMMMNNNNmNMMMo          
+         :yh+`            `/dNNs `ydh:    :shys/.   `+yso-`   :shddhy+-` oNMNho:-..```.-/`  
+ 
+Join my discord here!:
+https://discord.gg/bMwYFq2 
+--]]
+
+-- Hold R to kill all the NPCs around you
+-- Hold F to kill the closest NPC to your mouse
+end)
+
+local FirstButton = FirstPage.AddButton("Auto Complete Dungeon", function()
+--[ Keep in mind, the options still need to be unlocked in game, for you to create a Dungeon of that type and Difficulty Mode]
+--[ Auto Sell can be buggy sometimes, as always i am not responsible for the wrong items being sold, it has a 99% chance of not happening but just in case]
+
+getgenv().GameSettings = {
+    AutoSell = { 
+        ['Active'] = false, --[ On or Off ]--
+        ["Cosmetic"] = false,
+        ["CosmeticRarity"] = {["Common"] = false, ["Unique"] = false, ["Rare"] = false, ["Epic"] = false, ["Lengendary"] = false},
+        ["Armor"] = false,
+        ["ArmorRarity"] = {["Common"] = false, ["Unique"] = false, ["Rare"] = false, ["Epic"] = false, ["Lengendary"] = false},
+        ["Weapon"] = false,
+        ["WeaponRarity"] = {["Common"] = false, ["Unique"] = false, ["Rare"] = false, ["Epic"] = false, ["Lengendary"] = false},
+        ["Ability"] = false,
+        ["AbilityRarity"] = {["Common"] = false, ["Unique"] = false, ["Rare"] = false, ["Epic"] = false,["Lengendary"] = false},
+    },
+    Dungeon = {
+        ["Active"] = true, --[ On or Off ]--
+        ["Difficulty"] = "Easy", --[ Easy, Medium, Hard, Expert ]
+        ["PartyOnly"] = false,
+        ["Hardcore"] = false,
+        ["Location"] = "Caves" --[ Dungeon Name]
+    },
+     Player = {
+        ['HideName'] = true, 
+        ["NoMeleeCoolDown"] = true, 
+        ["PlayerHeight"] = -15,
+        ["RangeAngle"] = true, --[ Always Set to true unless you know what your doing ]--
+    },
+    Skill = {
+        ['Active'] = false, 
+        ["NumberOfPointsToWait"] = 5, --[ Wait for a set amount of skill points before autoskill kicks in ]--
+        ["SkilltoPut"] = "Strength" ,
+    }
+}
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/DohmBoyOG/Script-Dump/main/RumbleQuest_AutoDungeon_DohmScripts_Public.lua"))()
+end)
+
+
+if game.PlaceId == 286090429 then
+
+local UILibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/twink"))()
+
+local MainUI = UILibrary.Load("Arsenal | SinHub")
+local Combat = MainUI.AddPage("Combat")
+local ESP = MainUI.AddPage("ESP")
+local Misc = MainUI.AddPage("Misc")
+local Credits = MainUI.AddPage("Credits")
+
+local CreditsLabel = Credits.AddLabel("Made by KarumuBlox#2391")
+local CreditsLabel = CreditsPage.AddLabel("UI made by twink marie")
+
+local MiscButton = Misc.AddButton("Rainbow Gun", function()
+local c = 1
+function zigzag(X)
+ return math.acos(math.cos(X * math.pi)) / math.pi
+end
+game:GetService("RunService").RenderStepped:Connect(function()
+ if game.Workspace.Camera:FindFirstChild('Arms') then
+  for i,v in pairs(game.Workspace.Camera.Arms:GetDescendants()) do
+   if v.ClassName == 'MeshPart' then 
+    v.Color = Color3.fromHSV(zigzag(c),1,1)
+    c = c + .0001
+   end
+  end
+ end
+end)
+end)
+
+local CombatToggle = Combat.AddToggle("WallBang", false, function(Value)
+if toggle == false
+then toggle = true
+    
+    shared.WB = false
+shared.Key = 't'
+
+game.Players.LocalPlayer:GetMouse().KeyDown:Connect(function(Key)
+    if Key == shared.Key then
+        shared.WB = not shared.WB
+    end
+end)
+
+local mt = getrawmetatable(game)
+local nc = mt.__namecall
+
+setreadonly(mt, false)
+
+mt.__namecall = newcclosure(function(self, ...)
+    local Method = getnamecallmethod()
+    local Arguments = {...}
+   
+    if Method == 'FindPartOnRayWithIgnoreList' and shared.WB then
+        table.insert(Arguments[2], game.GetService(game, 'Workspace').Map)
+       
+        return nc(self, unpack(Arguments))
+    end
+   
+    return nc(self,...)
+end)
+
+    else
+        toggle = false
+        
+        shared.WB = true
+shared.Key = 't'
+
+game.Players.LocalPlayer:GetMouse().KeyDown:Connect(function(Key)
+    if Key == shared.Key then
+        shared.WB = not shared.WB
+    end
+end)
+
+local mt = getrawmetatable(game)
+local nc = mt.__namecall
+
+setreadonly(mt, false)
+
+mt.__namecall = newcclosure(function(self, ...)
+    local Method = getnamecallmethod()
+    local Arguments = {...}
+   
+    if Method == 'FindPartOnRayWithIgnoreList' and shared.WB then
+        table.insert(Arguments[2], game.GetService(game, 'Workspace').Map)
+       
+        return nc(self, unpack(Arguments))
+    end
+   
+    return nc(self,...)
+end)
+
+end
+end)
+
+local CombatToggle = Combat.AddToggle("AutoFarm", false, function(Value)
+if toggle == false
+then toggle = true
+    wait(2)
+       getgenv().AutoFarm = false
+       local camera = game.Workspace.CurrentCamera
+       function getClosest()
+           local closestdistance = math.huge
+           local ClosetPlayer = nil
+           for i,v in pairs(game.Players:GetChildren()) do
+               if v ~= game.Players.LocalPlayer and v.Team ~= game.Players.LocalPlayer.Team then
+                   local distance = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).magnitude
+                   if distance < closestdistance then
+                       closestdistance = distance
+                       ClosetPlayer = v
+                   end
+               end
+           end
+           return ClosetPlayer
+       end
+
+       game:GetService("RunService").Stepped:connect(function()
+           if getgenv().AutoFarm == true then
+           game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getClosest().Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 4)
+           camera.CFrame = CFrame.new(camera.CFrame.Position, getClosest().Character.Head.Position)
+           mouse1press()
+           wait()
+           mouse1release()
+           keypress(0x52)
+           end
+       end)
+
+    else
+        toggle = false
+        
+wait(2)
+       getgenv().AutoFarm = true
+       local camera = game.Workspace.CurrentCamera
+       function getClosest()
+           local closestdistance = math.huge
+           local ClosetPlayer = nil
+           for i,v in pairs(game.Players:GetChildren()) do
+               if v ~= game.Players.LocalPlayer and v.Team ~= game.Players.LocalPlayer.Team then
+                   local distance = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).magnitude
+                   if distance < closestdistance then
+                       closestdistance = distance
+                       ClosetPlayer = v
+                   end
+               end
+           end
+           return ClosetPlayer
+       end
+
+       game:GetService("RunService").Stepped:connect(function()
+           if getgenv().AutoFarm == true then
+           game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = getClosest().Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 4)
+           camera.CFrame = CFrame.new(camera.CFrame.Position, getClosest().Character.Head.Position)
+           mouse1press()
+           wait()
+           mouse1release()
+           keypress(0x52)
+           end
+end)
+
+local MiscButton = Misc.AddButton("Crash Server", function()
+    local plr = game.Players.LocalPlayer
+local cam = workspace.CurrentCamera
+
+while wait() do
+   for i = 1, 100 do
+       if plr and plr.Character and plr.Character:FindFirstChild("FakeHead") then
+           game:GetService("ReplicatedStorage").Events.ReplicateProjectile:FireServer({
+               [1] = "Baseball",
+               [2] = 277.6,
+               [3] = Vector3.new(),
+               [4] = plr.Character.FakeHead.CFrame,
+               [5] = 100,
+               [6] = 0,
+               [7] = 0,
+               [8] = 0,
+               [9] = "Snowball",
+               [10] = plr.Character.FakeHead.CFrame.p,
+               [11] = false,
+               [13] = {
+                   workspace.Map.Clips,
+                   workspace.Debris,
+                   plr.Character,
+                   cam
+               },
+               [15] = false,
+               [16] = 1
+           })
+       end
+   end
+end
+
+end)
+
+
+end
+end)
+
+local CombatToggle = Combat.AddToggle("Silent Aim", false, function(Value)
+if toggle == false
+then toggle = true
+    
+local Client
+for i,v in pairs(getgc(false)) do
+	if type(v) == "table" and rawget(v, "mode") then
+		Client = v;
+	end
+end
+
+local wkspc = Client.wkspc
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local LocalPlayer = Players.LocalPlayer
+local Mouse = LocalPlayer:GetMouse()
+
+function isSameTeam(Player, Player2)
+	if wkspc.FFA.Value == true then
+		return false
+	else
+		return Player.TeamColor == Player2.TeamColor and true or false
+	end
+end
+
+function getClosestToMouse()
+	local closestdis = math.huge
+	local closestplr
+	local mspos = Mouse.hit.p
+	for i,v in pairs(Players:GetPlayers()) do
+		if v:DistanceFromCharacter(mspos) < closestdis and not isSameTeam(LocalPlayer, v) and v ~= LocalPlayer and v.Character and v.Character:FindFirstChild("Head") and v.Character:FindFirstChild("Spawned") then
+			closestplr = v
+			closestdis = v:DistanceFromCharacter(mspos)
+		end
+	end
+	if not closestplr then return LocalPlayer end
+	return closestplr
+end
+
+rawset(Client, "firebullet", 
+	newcclosure(function()
+		local Random
+		repeat
+			Random = getClosestToMouse()
+			until Random.Character and Random.Character:FindFirstChild("Head")
+		local Gun = ReplicatedStorage.Weapons:FindFirstChild(LocalPlayer.NRPBS.EquippedTool.Value);
+		local Distance = (LocalPlayer.Character.Head.Position - Random.Character.Head.Position).magnitude
+		
+		for i = 1, 5 do
+			ReplicatedStorage.Events.HitPart:FireServer(
+				Random.Character.Head,
+				Random.Character.Head.Position + Vector3.new(math.random(), math.random(), math.random()),
+				Gun.Name,
+				2,
+				Distance,
+				false,
+				true,
+				false,
+				1,
+				false,
+				Gun.FireRate.Value,
+				Gun.ReloadTime.Value,
+				Gun.Ammo.Value,
+				Gun.StoredAmmo.Value,
+				Gun.Bullets.Value,
+				Gun.EquipTime.Value,
+				Gun.RecoilControl.Value,
+				Gun.Auto.Value,
+				Gun['Speed%'].Value,
+				wkspc.DistributedTime.Value
+			)
+		end
+	end)
+)
+
+    else
+        toggle = false
+        
+        local Client
+for i,v in pairs(getgc(true)) do
+	if type(v) == "table" and rawget(v, "mode") then
+		Client = v;
+	end
+end
+
+local wkspc = Client.wkspc
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local LocalPlayer = Players.LocalPlayer
+local Mouse = LocalPlayer:GetMouse()
+
+function isSameTeam(Player, Player2)
+	if wkspc.FFA.Value == true then
+		return false
+	else
+		return Player.TeamColor == Player2.TeamColor and true or false
+	end
+end
+
+function getClosestToMouse()
+	local closestdis = math.huge
+	local closestplr
+	local mspos = Mouse.hit.p
+	for i,v in pairs(Players:GetPlayers()) do
+		if v:DistanceFromCharacter(mspos) < closestdis and not isSameTeam(LocalPlayer, v) and v ~= LocalPlayer and v.Character and v.Character:FindFirstChild("Head") and v.Character:FindFirstChild("Spawned") then
+			closestplr = v
+			closestdis = v:DistanceFromCharacter(mspos)
+		end
+	end
+	if not closestplr then return LocalPlayer end
+	return closestplr
+end
+
+rawset(Client, "firebullet", 
+	newcclosure(function()
+		local Random
+		repeat
+			Random = getClosestToMouse()
+			until Random.Character and Random.Character:FindFirstChild("Head")
+		local Gun = ReplicatedStorage.Weapons:FindFirstChild(LocalPlayer.NRPBS.EquippedTool.Value);
+		local Distance = (LocalPlayer.Character.Head.Position - Random.Character.Head.Position).magnitude
+		
+		for i = 1, 5 do
+			ReplicatedStorage.Events.HitPart:FireServer(
+				Random.Character.Head,
+				Random.Character.Head.Position + Vector3.new(math.random(), math.random(), math.random()),
+				Gun.Name,
+				2,
+				Distance,
+				false,
+				true,
+				false,
+				1,
+				false,
+				Gun.FireRate.Value,
+				Gun.ReloadTime.Value,
+				Gun.Ammo.Value,
+				Gun.StoredAmmo.Value,
+				Gun.Bullets.Value,
+				Gun.EquipTime.Value,
+				Gun.RecoilControl.Value,
+				Gun.Auto.Value,
+				Gun['Speed%'].Value,
+				wkspc.DistributedTime.Value
+			)
+		end
+	end)
+)
+        
+end
+end)
+
+--Basic ESP--
+local ESPToggle = ESP.AddToggle("Basic Esp", false, function(Value)
+if toggle == false
+then toggle = true
+    
+--// Made by Blissful#4992 - R15 Skeleton ESP
+--//Options:
+local Settings = {
+    Color = Color3.fromRGB(255, 0, 0), -- Color of the lines of the skeleton
+    Thickness = 2, -- Thickness of the lines of the Skeleton
+    Transparency = 1, -- 1 Visible - 0 Not Visible
+    AutoThickness = true -- Makes Thickness above futile, scales according to distance, good for less encumbered screen
+}
+
+--//Locals, etc:
+local plr = game.Players.LocalPlayer
+local camera = game.Workspace.CurrentCamera
+
+local function NewLine()
+    local line = Drawing.new("Line")
+    line.Visible = false
+    line.From = Vector2.new(0, 0)
+    line.To = Vector2.new(0, 0)
+    line.Color = Settings.Color
+    line.Thickness = Settings.Thickness
+    line.Transparency = Settings.Transparency
+    return line
+end
+
+--//Separation: Main Function
+
+for i, v in pairs(game:GetService("Players"):GetPlayers()) do
+    local R15
+    spawn(function()
+        repeat wait() until v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil
+        R15 = (v.Character.Humanoid.RigType == Enum.HumanoidRigType.R15) and true or false
+    end)
+
+    local Spine = {}
+    local SpineNames = {}
+    local connecthead = NewLine()
+
+    local LLeg = {}
+    local LLegNames = {}
+    local connectlegleft = NewLine()
+
+    local RLeg = {}
+    local RLegNames = {}
+    local connectlegright = NewLine()
+
+    local LArm = {}
+    local LArmNames = {}
+    local connectarmleft = NewLine()
+
+    local RArm = {}
+    local RArmNames = {}
+    local connectarmright = NewLine()
+    
+    for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+        if v:IsA("BasePart") and v.Transparency ~= 1 then
+            if v.Name == "UpperTorso" or v.Name == "Torso" or v.Name == "HumanoidRootPart" or v.Name == "LowerTorso" then
+                table.insert(SpineNames, v.Name)
+                Spine[v.Name] = NewLine()
+            end
+            if v.Name == "LeftLeg" or v.Name == "LeftUpperLeg" or v.Name == "LeftLowerLeg" or v.Name == "LeftFoot" then
+                table.insert(LLegNames, v.Name)
+                LLeg[v.Name] = NewLine()
+            end
+            if v.Name == "RightLeg" or v.Name == "RightUpperLeg" or v.Name == "RightLowerLeg" or v.Name == "RightFoot" then
+                table.insert(RLegNames, v.Name)
+                RLeg[v.Name] = NewLine()
+            end
+            if v.Name == "LeftArm" or v.Name == "LeftUpperArm" or v.Name == "LeftLowerArm" or v.Name == "LeftHand" then
+                table.insert(LArmNames, v.Name)
+                LArm[v.Name] = NewLine()
+            end
+            if v.Name == "RightArm" or v.Name == "RightUpperArm" or v.Name == "RightLowerArm" or v.Name == "RightHand" then
+                table.insert(RArmNames, v.Name)
+                RArm[v.Name] = NewLine()
+            end
+        end
+    end 
+
+    local function ESP()
+        local function ConnectLimbs(limb, root, connector)
+            if v.Character:FindFirstChild(root) ~= nil and v.Character:FindFirstChild(limb) ~= nil then
+                local pos1 = camera:WorldToViewportPoint(v.Character:FindFirstChild(root).Position)
+                local pos2 = camera:WorldToViewportPoint(v.Character:FindFirstChild(limb).Position)
+                connector.From = Vector2.new(pos1.X, pos1.Y)
+                connector.To = Vector2.new(pos2.X, pos2.Y)
+            end
+        end
+        local function Visibility(state)
+            connecthead.Visible = state
+            connectarmleft.Visible = state
+            connectarmright.Visible = state
+            connectlegleft.Visible = state
+            connectlegright.Visible = state
+            for u, x in pairs(Spine) do
+                x.Visible = state
+            end
+            for u, x in pairs(LLeg) do
+                x.Visible = state
+            end
+            for u, x in pairs(RLeg) do
+                x.Visible = state
+            end
+            for u, x in pairs(LArm) do
+                x.Visible = state
+            end
+            for u, x in pairs(RArm) do
+                x.Visible = state
+            end
+        end
+        local function Thickness(state)
+            connecthead.Thickness = state
+            connectarmleft.Thickness = state
+            connectarmright.Thickness = state
+            connectlegleft.Thickness = state
+            connectlegright.Thickness = state
+            for u, x in pairs(Spine) do
+                x.Thickness = state
+            end
+            for u, x in pairs(LLeg) do
+                x.Thickness = state
+            end
+            for u, x in pairs(RLeg) do
+                x.Thickness = state
+            end
+            for u, x in pairs(LArm) do
+                x.Thickness = state
+            end
+            for u, x in pairs(RArm) do
+                x.Thickness = state
+            end
+        end
+        local function Color(color)
+            connecthead.Color = color
+            connectarmleft.Color = color
+            connectarmright.Color = color
+            connectlegleft.Color = color
+            connectlegright.Color = color
+            for u, x in pairs(Spine) do
+                x.Color = color
+            end
+            for u, x in pairs(LLeg) do
+                x.Color = color
+            end
+            for u, x in pairs(RLeg) do
+                x.Color = color
+            end
+            for u, x in pairs(LArm) do
+                x.Color = color
+            end
+            for u, x in pairs(RArm) do
+                x.Color = color
+            end
+        end
+
+        local connection
+        connection = game:GetService("RunService").RenderStepped:Connect(function()
+            if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v.Name ~= plr.Name and v.Character.Humanoid.Health > 0 then
+                local pos, vis = camera:WorldToViewportPoint(v.Character.HumanoidRootPart.Position)
+                if vis then 
+                    if R15 then
+                        local a = 0
+                        for u, x in pairs(Spine) do
+                            a=a+1
+                            if SpineNames[a+1] ~= nil and v.Character:FindFirstChild(SpineNames[a+1]) ~= nil and v.Character:FindFirstChild(SpineNames[a+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(v.Character:FindFirstChild(SpineNames[a]).Position)
+                                local pos2 = camera:WorldToViewportPoint(v.Character:FindFirstChild(SpineNames[a+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local b = 0
+                        for u, x in pairs(LArm) do
+                            b=b+1
+                            if LArmNames[b+1] ~= nil and v.Character:FindFirstChild(LArmNames[b+1]) ~= nil and v.Character:FindFirstChild(LArmNames[b+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(v.Character:FindFirstChild(LArmNames[b]).Position)
+                                local pos2 = camera:WorldToViewportPoint(v.Character:FindFirstChild(LArmNames[b+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local c = 0
+                        for u, x in pairs(RArm) do
+                            c=c+1
+                            if RArmNames[c+1] ~= nil and v.Character:FindFirstChild(RArmNames[c+1]) ~= nil and v.Character:FindFirstChild(RArmNames[c+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(v.Character:FindFirstChild(RArmNames[c]).Position)
+                                local pos2 = camera:WorldToViewportPoint(v.Character:FindFirstChild(RArmNames[c+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local d = 0
+                        for u, x in pairs(LLeg) do
+                            d=d+1
+                            if LLegNames[d+1] ~= nil and v.Character:FindFirstChild(LLegNames[d+1]) ~= nil and v.Character:FindFirstChild(LLegNames[d+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(v.Character:FindFirstChild(LLegNames[d]).Position)
+                                local pos2 = camera:WorldToViewportPoint(v.Character:FindFirstChild(LLegNames[d+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local e = 0
+                        for u, x in pairs(RLeg) do
+                            e=e+1
+                            if RRLegNames[e+1] ~= nil and v.Character:FindFirstChild(RLegNames[e+1]) ~= nil and v.Character:FindFirstChild(RLegNames[e+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(v.Character:FindFirstChild(RLegNames[e]).Position)
+                                local pos2 = camera:WorldToViewportPoint(v.Character:FindFirstChild(RLegNames[e+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        
+                        ConnectLimbs("LeftUpperArm", "UpperTorso", connectarmleft)
+                        ConnectLimbs("RightUpperArm", "UpperTorso", connectarmright)
+                        ConnectLimbs("LeftUpperLeg", "LowerTorso", connectlegleft)
+                        ConnectLimbs("RightUpperLeg", "LowerTorso", connectlegright)
+                        ConnectLimbs("UpperTorso", "Head", connecthead)
+                    end
+
+                    if Settings.AutoThickness then
+                        local distance = (plr.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).magnitude
+                        local value = math.clamp(1/distance*100, 0.1, 3) --0.1 is min thickness, 4 is max
+                        Thickness(value)
+                    else 
+                        Thickness(Settings.Thickness)
+                    end
+
+                    Visibility(true)
+                else 
+                    Visibility(false)
+                end
+            else 
+                Visibility(false)
+                if game.Players:FindFirstChild(v.Name) == nil then
+                    connection:Disconnect()
+                end
+            end
+        end)
+    end
+    coroutine.wrap(ESP)()
+end
+
+--// Made by Blissful#4992
+
+-- For when a player gets added:
+game.Players.PlayerAdded:Connect(function(newplr)
+    repeat wait() until newplr.Character ~= nil and newplr.Character:FindFirstChild("Humanoid") ~= nil and newplr.Character:FindFirstChild("HumanoidRootPart") ~= nil
+    local R15 = (newplr.Character.Humanoid.RigType == Enum.HumanoidRigType.R15) and true or false
+
+    local Spine = {}
+    local SpineNames = {}
+    local connecthead = NewLine()
+
+    local LLeg = {}
+    local LLegNames = {}
+    local connectlegleft = NewLine()
+
+    local RLeg = {}
+    local RLegNames = {}
+    local connectlegright = NewLine()
+
+    local LArm = {}
+    local LArmNames = {}
+    local connectarmleft = NewLine()
+
+    local RArm = {}
+    local RArmNames = {}
+    local connectarmright = NewLine()
+    
+    for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+        if v:IsA("BasePart") and v.Transparency ~= 1 then
+            if v.Name == "UpperTorso" or v.Name == "Torso" or v.Name == "HumanoidRootPart" or v.Name == "LowerTorso" then
+                table.insert(SpineNames, v.Name)
+                Spine[v.Name] = NewLine()
+            end
+            if v.Name == "LeftLeg" or v.Name == "LeftUpperLeg" or v.Name == "LeftLowerLeg" or v.Name == "LeftFoot" then
+                table.insert(LLegNames, v.Name)
+                LLeg[v.Name] = NewLine()
+            end
+            if v.Name == "RightLeg" or v.Name == "RightUpperLeg" or v.Name == "RightLowerLeg" or v.Name == "RightFoot" then
+                table.insert(RLegNames, v.Name)
+                RLeg[v.Name] = NewLine()
+            end
+            if v.Name == "LeftArm" or v.Name == "LeftUpperArm" or v.Name == "LeftLowerArm" or v.Name == "LeftHand" then
+                table.insert(LArmNames, v.Name)
+                LArm[v.Name] = NewLine()
+            end
+            if v.Name == "RightArm" or v.Name == "RightUpperArm" or v.Name == "RightLowerArm" or v.Name == "RightHand" then
+                table.insert(RArmNames, v.Name)
+                RArm[v.Name] = NewLine()
+            end
+        end
+    end
+    
+
+    local function ESP()
+        local function ConnectLimbs(limb, root, connector)
+            if newplr.Character:FindFirstChild(root) ~= nil and newplr.Character:FindFirstChild(limb) ~= nil then
+                local pos1 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(root).Position)
+                local pos2 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(limb).Position)
+                connector.From = Vector2.new(pos1.X, pos1.Y)
+                connector.To = Vector2.new(pos2.X, pos2.Y)
+            end
+        end
+        local function Visibility(state)
+            connecthead.Visible = state
+            connectarmleft.Visible = state
+            connectarmright.Visible = state
+            connectlegleft.Visible = state
+            connectlegright.Visible = state
+            for u, x in pairs(Spine) do
+                x.Visible = state
+            end
+            for u, x in pairs(LLeg) do
+                x.Visible = state
+            end
+            for u, x in pairs(RLeg) do
+                x.Visible = state
+            end
+            for u, x in pairs(LArm) do
+                x.Visible = state
+            end
+            for u, x in pairs(RArm) do
+                x.Visible = state
+            end
+        end
+        local function Thickness(state)
+            connecthead.Thickness = state
+            connectarmleft.Thickness = state
+            connectarmright.Thickness = state
+            connectlegleft.Thickness = state
+            connectlegright.Thickness = state
+            for u, x in pairs(Spine) do
+                x.Thickness = state
+            end
+            for u, x in pairs(LLeg) do
+                x.Thickness = state
+            end
+            for u, x in pairs(RLeg) do
+                x.Thickness = state
+            end
+            for u, x in pairs(LArm) do
+                x.Thickness = state
+            end
+            for u, x in pairs(RArm) do
+                x.Thickness = state
+            end
+        end
+        local function Color(color)
+            connecthead.Color = color
+            connectarmleft.Color = color
+            connectarmright.Color = color
+            connectlegleft.Color = color
+            connectlegright.Color = color
+            for u, x in pairs(Spine) do
+                x.Color = color
+            end
+            for u, x in pairs(LLeg) do
+                x.Color = color
+            end
+            for u, x in pairs(RLeg) do
+                x.Color = color
+            end
+            for u, x in pairs(LArm) do
+                x.Color = color
+            end
+            for u, x in pairs(RArm) do
+                x.Color = color
+            end
+        end
+
+        local connection
+        connection = game:GetService("RunService").RenderStepped:Connect(function()
+            if newplr.Character ~= nil and newplr.Character:FindFirstChild("Humanoid") ~= nil and newplr.Character:FindFirstChild("HumanoidRootPart") ~= nil and newplr.Name ~= plr.Name  and newplr.Character.Humanoid.Health > 0 then
+                local pos, vis = camera:WorldToViewportPoint(newplr.Character.HumanoidRootPart.Position)
+                if vis then 
+                    if R15 then
+                        local a = 0
+                        for u, x in pairs(Spine) do
+                            a=a+1
+                            if SpineNames[a+1] ~= nil and newplr.Character:FindFirstChild(SpineNames[a+1]) ~= nil and newplr.Character:FindFirstChild(SpineNames[a+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(SpineNames[a]).Position)
+                                local pos2 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(SpineNames[a+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local b = 0
+                        for u, x in pairs(LArm) do
+                            b=b+1
+                            if LArmNames[b+1] ~= nil and newplr.Character:FindFirstChild(LArmNames[b+1]) ~= nil and newplr.Character:FindFirstChild(LArmNames[b+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(LArmNames[b]).Position)
+                                local pos2 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(LArmNames[b+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local c = 0
+                        for u, x in pairs(RArm) do
+                            c=c+1
+                            if RArmNames[c+1] ~= nil and newplr.Character:FindFirstChild(RArmNames[c+1]) ~= nil and newplr.Character:FindFirstChild(RArmNames[c+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(RArmNames[c]).Position)
+                                local pos2 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(RArmNames[c+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local d = 0
+                        for u, x in pairs(LLeg) do
+                            d=d+1
+                            if LLegNames[d+1] ~= nil and newplr.Character:FindFirstChild(LLegNames[d+1]) ~= nil and newplr.Character:FindFirstChild(LLegNames[d+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(LLegNames[d]).Position)
+                                local pos2 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(LLegNames[d+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local e = 0
+                        for u, x in pairs(RLeg) do
+                            e=e+1
+                            if RLegNames[e+1] ~= nil and newplr.Character:FindFirstChild(RLegNames[e+1]) ~= nil and newplr.Character:FindFirstChild(RLegNames[e+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(RLegNames[e]).Position)
+                                local pos2 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(RLegNames[e+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        
+                        ConnectLimbs("LeftUpperArm", "UpperTorso", connectarmleft)
+                        ConnectLimbs("RightUpperArm", "UpperTorso", connectarmright)
+                        ConnectLimbs("LeftUpperLeg", "LowerTorso", connectlegleft)
+                        ConnectLimbs("RightUpperLeg", "LowerTorso", connectlegright)
+                        ConnectLimbs("UpperTorso", "Head", connecthead)
+                    end
+
+                    if Settings.AutoThickness then
+                        local distance = (plr.Character.HumanoidRootPart.Position - newplr.Character.HumanoidRootPart.Position).magnitude
+                        local value = math.clamp(1/distance*100, 0.1, 3) --0.1 is min thickness, 4 is max
+                        Thickness(value)
+                    else 
+                        Thickness(Settings.Thickness)
+                    end
+
+                    Visibility(true)
+                else 
+                    Visibility(false)
+                end
+            else 
+                Visibility(false)
+                if game.Players:FindFirstChild(newplr.Name) == nil then
+                    connection:Disconnect()
+                end
+            end
+        end)
+    end
+    coroutine.wrap(ESP)()
+end)
+--// Made by Blissful#4992
+
+    else
+        toggle = false
+        
+--// Made by Blissful#4992 - R15 Skeleton ESP
+--//Options:
+local Settings = {
+    Color = Color3.fromRGB(255, 0, 0), -- Color of the lines of the skeleton
+    Thickness = 2, -- Thickness of the lines of the Skeleton
+    Transparency = 1, -- 1 Visible - 0 Not Visible
+    AutoThickness = true -- Makes Thickness above futile, scales according to distance, good for less encumbered screen
+}
+
+--//Locals, etc:
+local plr = game.Players.LocalPlayer
+local camera = game.Workspace.CurrentCamera
+
+local function NewLine()
+    local line = Drawing.new("Line")
+    line.Visible = true
+    line.From = Vector2.new(0, 0)
+    line.To = Vector2.new(0, 0)
+    line.Color = Settings.Color
+    line.Thickness = Settings.Thickness
+    line.Transparency = Settings.Transparency
+    return line
+end
+
+--//Separation: Main Function
+
+for i, v in pairs(game:GetService("Players"):GetPlayers()) do
+    local R15
+    spawn(function()
+        repeat wait() until v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil
+        R15 = (v.Character.Humanoid.RigType == Enum.HumanoidRigType.R15) and true or false
+    end)
+
+    local Spine = {}
+    local SpineNames = {}
+    local connecthead = NewLine()
+
+    local LLeg = {}
+    local LLegNames = {}
+    local connectlegleft = NewLine()
+
+    local RLeg = {}
+    local RLegNames = {}
+    local connectlegright = NewLine()
+
+    local LArm = {}
+    local LArmNames = {}
+    local connectarmleft = NewLine()
+
+    local RArm = {}
+    local RArmNames = {}
+    local connectarmright = NewLine()
+    
+    for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+        if v:IsA("BasePart") and v.Transparency ~= 1 then
+            if v.Name == "UpperTorso" or v.Name == "Torso" or v.Name == "HumanoidRootPart" or v.Name == "LowerTorso" then
+                table.insert(SpineNames, v.Name)
+                Spine[v.Name] = NewLine()
+            end
+            if v.Name == "LeftLeg" or v.Name == "LeftUpperLeg" or v.Name == "LeftLowerLeg" or v.Name == "LeftFoot" then
+                table.insert(LLegNames, v.Name)
+                LLeg[v.Name] = NewLine()
+            end
+            if v.Name == "RightLeg" or v.Name == "RightUpperLeg" or v.Name == "RightLowerLeg" or v.Name == "RightFoot" then
+                table.insert(RLegNames, v.Name)
+                RLeg[v.Name] = NewLine()
+            end
+            if v.Name == "LeftArm" or v.Name == "LeftUpperArm" or v.Name == "LeftLowerArm" or v.Name == "LeftHand" then
+                table.insert(LArmNames, v.Name)
+                LArm[v.Name] = NewLine()
+            end
+            if v.Name == "RightArm" or v.Name == "RightUpperArm" or v.Name == "RightLowerArm" or v.Name == "RightHand" then
+                table.insert(RArmNames, v.Name)
+                RArm[v.Name] = NewLine()
+            end
+        end
+    end 
+
+    local function ESP()
+        local function ConnectLimbs(limb, root, connector)
+            if v.Character:FindFirstChild(root) ~= nil and v.Character:FindFirstChild(limb) ~= nil then
+                local pos1 = camera:WorldToViewportPoint(v.Character:FindFirstChild(root).Position)
+                local pos2 = camera:WorldToViewportPoint(v.Character:FindFirstChild(limb).Position)
+                connector.From = Vector2.new(pos1.X, pos1.Y)
+                connector.To = Vector2.new(pos2.X, pos2.Y)
+            end
+        end
+        local function Visibility(state)
+            connecthead.Visible = state
+            connectarmleft.Visible = state
+            connectarmright.Visible = state
+            connectlegleft.Visible = state
+            connectlegright.Visible = state
+            for u, x in pairs(Spine) do
+                x.Visible = state
+            end
+            for u, x in pairs(LLeg) do
+                x.Visible = state
+            end
+            for u, x in pairs(RLeg) do
+                x.Visible = state
+            end
+            for u, x in pairs(LArm) do
+                x.Visible = state
+            end
+            for u, x in pairs(RArm) do
+                x.Visible = state
+            end
+        end
+        local function Thickness(state)
+            connecthead.Thickness = state
+            connectarmleft.Thickness = state
+            connectarmright.Thickness = state
+            connectlegleft.Thickness = state
+            connectlegright.Thickness = state
+            for u, x in pairs(Spine) do
+                x.Thickness = state
+            end
+            for u, x in pairs(LLeg) do
+                x.Thickness = state
+            end
+            for u, x in pairs(RLeg) do
+                x.Thickness = state
+            end
+            for u, x in pairs(LArm) do
+                x.Thickness = state
+            end
+            for u, x in pairs(RArm) do
+                x.Thickness = state
+            end
+        end
+        local function Color(color)
+            connecthead.Color = color
+            connectarmleft.Color = color
+            connectarmright.Color = color
+            connectlegleft.Color = color
+            connectlegright.Color = color
+            for u, x in pairs(Spine) do
+                x.Color = color
+            end
+            for u, x in pairs(LLeg) do
+                x.Color = color
+            end
+            for u, x in pairs(RLeg) do
+                x.Color = color
+            end
+            for u, x in pairs(LArm) do
+                x.Color = color
+            end
+            for u, x in pairs(RArm) do
+                x.Color = color
+            end
+        end
+
+        local connection
+        connection = game:GetService("RunService").RenderStepped:Connect(function()
+            if v.Character ~= nil and v.Character:FindFirstChild("Humanoid") ~= nil and v.Character:FindFirstChild("HumanoidRootPart") ~= nil and v.Name ~= plr.Name and v.Character.Humanoid.Health > 0 then
+                local pos, vis = camera:WorldToViewportPoint(v.Character.HumanoidRootPart.Position)
+                if vis then 
+                    if R15 then
+                        local a = 0
+                        for u, x in pairs(Spine) do
+                            a=a+1
+                            if SpineNames[a+1] ~= nil and v.Character:FindFirstChild(SpineNames[a+1]) ~= nil and v.Character:FindFirstChild(SpineNames[a+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(v.Character:FindFirstChild(SpineNames[a]).Position)
+                                local pos2 = camera:WorldToViewportPoint(v.Character:FindFirstChild(SpineNames[a+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local b = 0
+                        for u, x in pairs(LArm) do
+                            b=b+1
+                            if LArmNames[b+1] ~= nil and v.Character:FindFirstChild(LArmNames[b+1]) ~= nil and v.Character:FindFirstChild(LArmNames[b+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(v.Character:FindFirstChild(LArmNames[b]).Position)
+                                local pos2 = camera:WorldToViewportPoint(v.Character:FindFirstChild(LArmNames[b+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local c = 0
+                        for u, x in pairs(RArm) do
+                            c=c+1
+                            if RArmNames[c+1] ~= nil and v.Character:FindFirstChild(RArmNames[c+1]) ~= nil and v.Character:FindFirstChild(RArmNames[c+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(v.Character:FindFirstChild(RArmNames[c]).Position)
+                                local pos2 = camera:WorldToViewportPoint(v.Character:FindFirstChild(RArmNames[c+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local d = 0
+                        for u, x in pairs(LLeg) do
+                            d=d+1
+                            if LLegNames[d+1] ~= nil and v.Character:FindFirstChild(LLegNames[d+1]) ~= nil and v.Character:FindFirstChild(LLegNames[d+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(v.Character:FindFirstChild(LLegNames[d]).Position)
+                                local pos2 = camera:WorldToViewportPoint(v.Character:FindFirstChild(LLegNames[d+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local e = 0
+                        for u, x in pairs(RLeg) do
+                            e=e+1
+                            if RRLegNames[e+1] ~= nil and v.Character:FindFirstChild(RLegNames[e+1]) ~= nil and v.Character:FindFirstChild(RLegNames[e+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(v.Character:FindFirstChild(RLegNames[e]).Position)
+                                local pos2 = camera:WorldToViewportPoint(v.Character:FindFirstChild(RLegNames[e+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        
+                        ConnectLimbs("LeftUpperArm", "UpperTorso", connectarmleft)
+                        ConnectLimbs("RightUpperArm", "UpperTorso", connectarmright)
+                        ConnectLimbs("LeftUpperLeg", "LowerTorso", connectlegleft)
+                        ConnectLimbs("RightUpperLeg", "LowerTorso", connectlegright)
+                        ConnectLimbs("UpperTorso", "Head", connecthead)
+                    end
+
+                    if Settings.AutoThickness then
+                        local distance = (plr.Character.HumanoidRootPart.Position - v.Character.HumanoidRootPart.Position).magnitude
+                        local value = math.clamp(1/distance*100, 0.1, 3) --0.1 is min thickness, 4 is max
+                        Thickness(value)
+                    else 
+                        Thickness(Settings.Thickness)
+                    end
+
+                    Visibility(true)
+                else 
+                    Visibility(false)
+                end
+            else 
+                Visibility(false)
+                if game.Players:FindFirstChild(v.Name) == nil then
+                    connection:Disconnect()
+                end
+            end
+        end)
+    end
+    coroutine.wrap(ESP)()
+end
+
+--// Made by Blissful#4992
+
+-- For when a player gets added:
+game.Players.PlayerAdded:Connect(function(newplr)
+    repeat wait() until newplr.Character ~= nil and newplr.Character:FindFirstChild("Humanoid") ~= nil and newplr.Character:FindFirstChild("HumanoidRootPart") ~= nil
+    local R15 = (newplr.Character.Humanoid.RigType == Enum.HumanoidRigType.R15) and true or false
+
+    local Spine = {}
+    local SpineNames = {}
+    local connecthead = NewLine()
+
+    local LLeg = {}
+    local LLegNames = {}
+    local connectlegleft = NewLine()
+
+    local RLeg = {}
+    local RLegNames = {}
+    local connectlegright = NewLine()
+
+    local LArm = {}
+    local LArmNames = {}
+    local connectarmleft = NewLine()
+
+    local RArm = {}
+    local RArmNames = {}
+    local connectarmright = NewLine()
+    
+    for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+        if v:IsA("BasePart") and v.Transparency ~= 1 then
+            if v.Name == "UpperTorso" or v.Name == "Torso" or v.Name == "HumanoidRootPart" or v.Name == "LowerTorso" then
+                table.insert(SpineNames, v.Name)
+                Spine[v.Name] = NewLine()
+            end
+            if v.Name == "LeftLeg" or v.Name == "LeftUpperLeg" or v.Name == "LeftLowerLeg" or v.Name == "LeftFoot" then
+                table.insert(LLegNames, v.Name)
+                LLeg[v.Name] = NewLine()
+            end
+            if v.Name == "RightLeg" or v.Name == "RightUpperLeg" or v.Name == "RightLowerLeg" or v.Name == "RightFoot" then
+                table.insert(RLegNames, v.Name)
+                RLeg[v.Name] = NewLine()
+            end
+            if v.Name == "LeftArm" or v.Name == "LeftUpperArm" or v.Name == "LeftLowerArm" or v.Name == "LeftHand" then
+                table.insert(LArmNames, v.Name)
+                LArm[v.Name] = NewLine()
+            end
+            if v.Name == "RightArm" or v.Name == "RightUpperArm" or v.Name == "RightLowerArm" or v.Name == "RightHand" then
+                table.insert(RArmNames, v.Name)
+                RArm[v.Name] = NewLine()
+            end
+        end
+    end
+    
+
+    local function ESP()
+        local function ConnectLimbs(limb, root, connector)
+            if newplr.Character:FindFirstChild(root) ~= nil and newplr.Character:FindFirstChild(limb) ~= nil then
+                local pos1 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(root).Position)
+                local pos2 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(limb).Position)
+                connector.From = Vector2.new(pos1.X, pos1.Y)
+                connector.To = Vector2.new(pos2.X, pos2.Y)
+            end
+        end
+        local function Visibility(state)
+            connecthead.Visible = state
+            connectarmleft.Visible = state
+            connectarmright.Visible = state
+            connectlegleft.Visible = state
+            connectlegright.Visible = state
+            for u, x in pairs(Spine) do
+                x.Visible = state
+            end
+            for u, x in pairs(LLeg) do
+                x.Visible = state
+            end
+            for u, x in pairs(RLeg) do
+                x.Visible = state
+            end
+            for u, x in pairs(LArm) do
+                x.Visible = state
+            end
+            for u, x in pairs(RArm) do
+                x.Visible = state
+            end
+        end
+        local function Thickness(state)
+            connecthead.Thickness = state
+            connectarmleft.Thickness = state
+            connectarmright.Thickness = state
+            connectlegleft.Thickness = state
+            connectlegright.Thickness = state
+            for u, x in pairs(Spine) do
+                x.Thickness = state
+            end
+            for u, x in pairs(LLeg) do
+                x.Thickness = state
+            end
+            for u, x in pairs(RLeg) do
+                x.Thickness = state
+            end
+            for u, x in pairs(LArm) do
+                x.Thickness = state
+            end
+            for u, x in pairs(RArm) do
+                x.Thickness = state
+            end
+        end
+        local function Color(color)
+            connecthead.Color = color
+            connectarmleft.Color = color
+            connectarmright.Color = color
+            connectlegleft.Color = color
+            connectlegright.Color = color
+            for u, x in pairs(Spine) do
+                x.Color = color
+            end
+            for u, x in pairs(LLeg) do
+                x.Color = color
+            end
+            for u, x in pairs(RLeg) do
+                x.Color = color
+            end
+            for u, x in pairs(LArm) do
+                x.Color = color
+            end
+            for u, x in pairs(RArm) do
+                x.Color = color
+            end
+        end
+
+        local connection
+        connection = game:GetService("RunService").RenderStepped:Connect(function()
+            if newplr.Character ~= nil and newplr.Character:FindFirstChild("Humanoid") ~= nil and newplr.Character:FindFirstChild("HumanoidRootPart") ~= nil and newplr.Name ~= plr.Name  and newplr.Character.Humanoid.Health > 0 then
+                local pos, vis = camera:WorldToViewportPoint(newplr.Character.HumanoidRootPart.Position)
+                if vis then 
+                    if R15 then
+                        local a = 0
+                        for u, x in pairs(Spine) do
+                            a=a+1
+                            if SpineNames[a+1] ~= nil and newplr.Character:FindFirstChild(SpineNames[a+1]) ~= nil and newplr.Character:FindFirstChild(SpineNames[a+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(SpineNames[a]).Position)
+                                local pos2 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(SpineNames[a+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local b = 0
+                        for u, x in pairs(LArm) do
+                            b=b+1
+                            if LArmNames[b+1] ~= nil and newplr.Character:FindFirstChild(LArmNames[b+1]) ~= nil and newplr.Character:FindFirstChild(LArmNames[b+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(LArmNames[b]).Position)
+                                local pos2 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(LArmNames[b+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local c = 0
+                        for u, x in pairs(RArm) do
+                            c=c+1
+                            if RArmNames[c+1] ~= nil and newplr.Character:FindFirstChild(RArmNames[c+1]) ~= nil and newplr.Character:FindFirstChild(RArmNames[c+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(RArmNames[c]).Position)
+                                local pos2 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(RArmNames[c+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local d = 0
+                        for u, x in pairs(LLeg) do
+                            d=d+1
+                            if LLegNames[d+1] ~= nil and newplr.Character:FindFirstChild(LLegNames[d+1]) ~= nil and newplr.Character:FindFirstChild(LLegNames[d+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(LLegNames[d]).Position)
+                                local pos2 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(LLegNames[d+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        local e = 0
+                        for u, x in pairs(RLeg) do
+                            e=e+1
+                            if RLegNames[e+1] ~= nil and newplr.Character:FindFirstChild(RLegNames[e+1]) ~= nil and newplr.Character:FindFirstChild(RLegNames[e+1]).Position ~= nil then
+                                local pos1 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(RLegNames[e]).Position)
+                                local pos2 = camera:WorldToViewportPoint(newplr.Character:FindFirstChild(RLegNames[e+1]).Position)
+                                x.From = Vector2.new(pos1.X, pos1.Y)
+                                x.To = Vector2.new(pos2.X, pos2.Y)
+                            end
+                        end
+                        
+                        ConnectLimbs("LeftUpperArm", "UpperTorso", connectarmleft)
+                        ConnectLimbs("RightUpperArm", "UpperTorso", connectarmright)
+                        ConnectLimbs("LeftUpperLeg", "LowerTorso", connectlegleft)
+                        ConnectLimbs("RightUpperLeg", "LowerTorso", connectlegright)
+                        ConnectLimbs("UpperTorso", "Head", connecthead)
+                    end
+
+                    if Settings.AutoThickness then
+                        local distance = (plr.Character.HumanoidRootPart.Position - newplr.Character.HumanoidRootPart.Position).magnitude
+                        local value = math.clamp(1/distance*100, 0.1, 3) --0.1 is min thickness, 4 is max
+                        Thickness(value)
+                    else 
+                        Thickness(Settings.Thickness)
+                    end
+
+                    Visibility(true)
+                else 
+                    Visibility(false)
+                end
+            else 
+                Visibility(false)
+                if game.Players:FindFirstChild(newplr.Name) == nil then
+                    connection:Disconnect()
+                end
+            end
+        end)
+    end
+    coroutine.wrap(ESP)()
+end)
+--// Made by Blissful#4992
+        end
+end)
+
+--ADVANCED ESP--
+local ESPToggle = ESP.AddToggle("Advanced Esp", false, function(Value)
+if toggle == false
+then toggle = true
+    
+    shared.Visuals = { --// Configuration (Will load default settings if shared.Visuals doesn't exist.)
+    Enabled = false,
+    CrosshairEnabled = true,
+    Boxes = true,
+    Healthbar = true,
+    Tracers = true,
+    Info = true,
+    ShowAllyTeam = true,
+    UseTeamColor = true,
+    AllyColor = Color3.fromRGB(0, 255, 0),
+    EnemyColor = Color3.fromRGB(255, 0, 0),
+    Crosshair = {
+        Size = 5,
+        Thickness = 1.5,
+        Offset = 5
+    }
+}
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/coastss/releases/main/universal_visuals.lua"))()
+    else
+        toggle = false
+        
+        shared.Visuals = { --// Configuration (Will load default settings if shared.Visuals doesn't exist.)
+    Enabled = true,
+    CrosshairEnabled = true,
+    Boxes = true,
+    Healthbar = true,
+    Tracers = true,
+    Info = true,
+    ShowAllyTeam = true,
+    UseTeamColor = true,
+    AllyColor = Color3.fromRGB(0, 255, 0),
+    EnemyColor = Color3.fromRGB(255, 0, 0),
+    Crosshair = {
+        Size = 5,
+        Thickness = 1.5,
+        Offset = 5
+    }
+}
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/coastss/releases/main/universal_visuals.lua"))()
+        end
+end)
+
+
+local CombatButton = Combat.AddButton("Hitbox Expander", function()
+-- thanks to JasonJJK on v3rm for helping me improve this script!
+
+hitboxSize = 13 -- Change hitbox size here
+visiblity = 0 -- 10 for invisible, 0 for visible
+
+local function expandHitbox(target) -- expand hitbox function (basic)  
+  -- Prevent errors by waiting until everything loads in for the target
+  repeat wait() until target.Character
+  repeat wait() until target.Character:FindFirstChild("HeadHB")
+  repeat wait() until target.Character:FindFirstChild("HumanoidRootPart")
+ 
+  -- expand hitbox
+  target.Character.HeadHB.Size = Vector3.new(hitboxSize,hitboxSize,hitboxSize)
+  target.Character.HeadHB.CanCollide = false
+  target.Character.HeadHB.Transparency = visiblity
+  target.Character.HumanoidRootPart.Size = Vector3.new(hitboxSize,hitboxSize,hitboxSize)
+  target.Character.HumanoidRootPart.CanCollide = false
+  target.Character.HumanoidRootPart.Transparency = visiblity
+  target.Character.torso.Size = Vector3.new(hitboxSize,hitboxSize,hitboxSize)
+  target.Character.torso.CanCollide = false
+  target.Character.torso.Transparency = 10
+end
+
+-- What players do we do this to?
+
+for i,v in pairs(game.Players:GetPlayers()) do --exisiting players
+  if v ~= game:GetService("Players").LocalPlayer and v.Character then
+      expandHitbox(v)
+          v.CharacterAdded:Connect(function(character)
+              expandHitbox(character)
+      end)
+  end
+end
+
+game.Players.PlayerAdded:Connect(function(player) -- new member joins
+  if player.character then -- if its a character
+      expandHitbox(player)
+  end
+  player.CharacterAdded:Connect(function(joinedcharacter) -- if their character changes
+      expandHitbox(joinedcharacter)
+  end)
+end)
+
+while wait(1) do -- get rid of the torso
+  for i,v in pairs(game.Players:GetPlayers()) do --exisiting players
+  if v ~= game:GetService("Players").LocalPlayer and v.Character then
+          expandHitbox(v)
+  end
+end
+end
+end)
+
+
+end
+

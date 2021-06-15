@@ -1,0 +1,79 @@
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/ApolloHub/UI-Libarys/main/Porhub%20UI%20LIB%20Load"))() -- cal the lib
+local a = library:NewWindow("Sinz","HUB") -- Change to anything
+local c = a:NewSection("What is this?")
+local b = a:NewSection("Main")
+ 
+c:h1("What is this GUI?")
+c:Text("This Gui will have leaked and rare Script Hubs")
+c:Text("If you have any DM Zombie#5494 with the script")
+c:Text("This will be open source")
+c:Text("GitHub for scripts: https://github.com/ApolloHub/Leak")
+
+c:Bind("Toggle GUI",Enum.KeyCode.P,true,function(a)
+   library:SetBind(a)
+   print("Set".. a ..  " as a gui keybind")
+end)
+
+
+b:Button("Androxis v3 Premium",function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ApolloHub/Leak/main/Androxis_v3_Premium.txt"))()
+end)
+
+
+b:Button("Azure Hub",function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ApolloHub/Leak/main/Azure%20Hub%20CRACKED%202021.txt"))()  
+end)
+
+b:Text("Azure Hub - Key is Azure_crackedlol")
+
+b:Button("ApolloHub",function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ApolloHub/Leak/main/ApolloHub.txt"))()  
+end)
+
+b:Button("Bubble Hub",function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ApolloHub/Leak/main/Bubble%20Hub.txt"))()  
+end)
+
+b:Button("Corona Hub",function()
+    loadstring(game:HttpGet("http://assasine.com/Scripts/Sowd_Corona_Hub_Crack.lua", true))()
+end)
+
+b:Button("Edge hub",function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ApolloHub/Leak/main/Edge%20hub%20Cracked.txt"))()  
+end)
+
+b:Button("Godz Hub",function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ApolloHub/Leak/main/Godz%20Hub%20CRACKED.txt"))()  
+end)
+
+b:Button("Hattori Hub",function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/RaptorsSexy/Cracks/main/NoirLikesDick.txt"))();
+end)
+
+b:Button("Magma Hub",function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ApolloHub/Leak/main/Magma%20Hub.txt"))()  
+end)
+
+b:Button("Nebula Hub v2",function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ApolloHub/Leak/main/Nebula%20Hub%20v2.txt"))()  
+end)
+
+b:Button("Ninja Hub",function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ApolloHub/Leak/main/Ninja%20Hub%20SOURCE%20CODE.txt"))()  
+end)
+
+b:Button("OrHub",function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/inceldom/leaks/main/orhubcrack"))()
+end)
+
+b:Button("Sin Hub",function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ApolloHub/Leak/main/SinHub.txt"))()  
+end)
+
+b:Button("Straw Hub",function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ApolloHub/Leak/main/Straw%20Hub.txt"))()  
+end)
+
+b:Button("Wifu Hub",function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ApolloHub/Leak/main/Wifu%20Hub.txt"))()  
+end)
